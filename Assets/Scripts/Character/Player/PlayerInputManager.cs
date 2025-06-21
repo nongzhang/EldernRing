@@ -1,70 +1,113 @@
-using SG;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlayerInputManager : MonoBehaviour
+namespace SG
 {
-    public static PlayerInputManager instance;
-    PlayerControls playerControls;
-    [SerializeField] Vector2 movementInput;
-
-    private void Awake()
+    public class PlayerInputManager : MonoBehaviour
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        //SceneManager.activeSceneChanged += OnSceneChange;   
-    }
+        public static PlayerInputManager instance;
+        PlayerControls playerControls;
+        [SerializeField] Vector2 movementInput;
+        public float horizontalInput;
+        public float verticalInput;
+        public float moveAmount;
 
-    private void OnSceneChange(Scene oldScene, Scene newScene)
-    {
-        if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
+        private void Awake()
         {
-            instance.enabled = true;
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            //SceneManager.activeSceneChanged += OnSceneChange;   
         }
-        else
+
+        private void OnSceneChange(Scene oldScene, Scene newScene)
         {
+            if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
+            {
+                instance.enabled = true;
+            }
+            else
+            {
+                instance.enabled = false;
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (playerControls == null)
+            {
+                playerControls = new PlayerControls();
+                playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();   //Lambda表达式
+                                                                                                                   //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
+            }
+            playerControls.Enable();
+            //SceneManager.activeSceneChanged += OnSceneChange;
+        }
+
+        //private void OnMovementPerformed(InputAction.CallbackContext context)
+        //{
+        //    movementInput = context.ReadValue<Vector2>();
+        //}
+
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+            SceneManager.activeSceneChanged += OnSceneChange;    //将这个事件放在Start里面是因为，刚进入游戏时，在菜单界面，我并不想让Input生效，只有到世界场景中时，才让输入控制生效
             instance.enabled = false;
         }
-    }
 
-    private void OnEnable()
-    {
-        if (playerControls == null)
+        //private void OnDisable()
+        //{
+        //    SceneManager.activeSceneChanged -= OnSceneChange;
+        //}
+
+        private void OnDestroy()
         {
-            playerControls = new PlayerControls();
-            playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();   //Lambda表达式
-            //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
+            SceneManager.activeSceneChanged -= OnSceneChange;
         }
-        playerControls.Enable();
-        //SceneManager.activeSceneChanged += OnSceneChange;
-    }
 
-    //private void OnMovementPerformed(InputAction.CallbackContext context)
-    //{
-    //    movementInput = context.ReadValue<Vector2>();
-    //}
+        private void OnApplicationFocus(bool focus)
+        {
+            if (enabled)
+            {
+                if (focus)
+                {
+                    playerControls.Enable();
+                }
+                else
+                {
+                    playerControls.Disable();
+                }
+            }
+        }
 
-    private void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-        SceneManager.activeSceneChanged += OnSceneChange;
-        instance.enabled = false;
-    }
+        private void Update()
+        {
+            HandleMovementInput();
+        }
 
-    //private void OnDisable()
-    //{
-    //    SceneManager.activeSceneChanged -= OnSceneChange;
-    //}
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
 
-    private void OnDestroy()
-    {
-        SceneManager.activeSceneChanged -= OnSceneChange;
+            moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+            if (moveAmount <= 0.5 && moveAmount > 0)
+            {
+                moveAmount = 0.5f;
+            }
+            else if (moveAmount > 0.5 && moveAmount <= 1)
+            {
+                moveAmount = 1;
+            }
+        }
     }
 }
+
+
