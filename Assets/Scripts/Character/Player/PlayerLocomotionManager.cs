@@ -23,21 +23,42 @@ namespace SG
             base.Awake();
             playerManager = GetComponent<PlayerManager>();
         }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (playerManager.IsOwner)
+            {
+                playerManager.characterNetworkManager.veryicalMovement.Value = verticalMovement;
+                playerManager.characterNetworkManager.horizontalMovement.Value = horizontalMovement;
+                playerManager.characterNetworkManager.moveAmount.Value = moveAmount;
+            }
+            else
+            {
+                verticalMovement = playerManager.characterNetworkManager.veryicalMovement.Value;
+                horizontalMovement = playerManager.characterNetworkManager.horizontalMovement.Value;
+                moveAmount = playerManager.characterNetworkManager.moveAmount.Value;
+
+                playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);  //未锁定时，水平方向移动值为0
+            }
+        }
+
         public void HandleAllMovement()
         {
             HandleGroundedMovement();
             HandleRotation();
         }
 
-        private void GetVerticalAndHorizontalInput()
+        private void GetMovementValue()
         {
             verticalMovement = PlayerInputManager.instance.verticalInput;
             horizontalMovement = PlayerInputManager.instance.horizontalInput;
+            moveAmount = PlayerInputManager.instance.moveAmount;
         }
 
         private void HandleGroundedMovement()
         {
-            GetVerticalAndHorizontalInput();
+            GetMovementValue();
             //我们的移动方向是基于相机面朝的视角和我们的移动输入
             moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;
             moveDirection = moveDirection + PlayerCamera.instance.transform.right * horizontalMovement;

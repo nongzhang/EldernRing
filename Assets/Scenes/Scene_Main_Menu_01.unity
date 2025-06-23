@@ -1352,6 +1352,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
+      propertyPath: maximumPivot
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
+      propertyPath: minimumPivot
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
+      propertyPath: upAndDownRotationSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
+      propertyPath: leftAndRightRotationSpeed
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5043451306727529168, guid: 14633ab31764bff42b959efe9409aa01,
         type: 3}
       propertyPath: m_RootOrder

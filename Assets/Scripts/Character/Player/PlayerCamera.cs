@@ -72,7 +72,7 @@ namespace SG
             leftAndRightLookAngle += PlayerInputManager.instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
 
             //鼠标上下移动控制相机竖直移动
-            upAndDownLookAngle += PlayerInputManager.instance.cameraVerticalInput *upAndDownRotationSpeed * Time.deltaTime;
+            upAndDownLookAngle -= PlayerInputManager.instance.cameraVerticalInput *upAndDownRotationSpeed * Time.deltaTime;
             upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
 
             Vector3 cameraRotation = Vector3.zero;

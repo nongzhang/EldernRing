@@ -1614,10 +1614,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7121162441798143764}
+  - component: {fileID: -466285184171591520}
   - component: {fileID: -2954801915486931808}
   - component: {fileID: -2392156107408308924}
   - component: {fileID: 2707608882823607388}
   - component: {fileID: -5743808709478221308}
+  - component: {fileID: 4782559585517730272}
   - component: {fileID: 8997673321547494466}
   m_Layer: 0
   m_Name: Player
@@ -1643,6 +1645,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &-466285184171591520
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609010990445434286}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0ad932253e8dc8841948afa5d1a0d051, type: 3}
+  m_Controller: {fileID: 9100000, guid: f40b2d8d6fcab794ca3c433973f2af31, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-2954801915486931808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1709,6 +1731,18 @@ MonoBehaviour:
   walkSpeed: 2
   runningSpeed: 5
   rotationSpeed: 15
+--- !u!114 &4782559585517730272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609010990445434286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf15c35fae7c1b34891c2f56cf6b3ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!143 &8997673321547494466
 CharacterController:
   m_ObjectHideFlags: 0

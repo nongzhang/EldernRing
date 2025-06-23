@@ -7,6 +7,7 @@ namespace SG
     public class PlayerInputManager : MonoBehaviour
     {
         public static PlayerInputManager instance;
+        public PlayerManager playerManager;
         PlayerControls playerControls;
 
         [Header("PLAYER MOVEMENT INPUT")]
@@ -115,12 +116,17 @@ namespace SG
             {
                 moveAmount = 1;
             }
+            if(playerManager == null)
+            {
+                return;
+            }
+            playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
         }
 
         private void HandleCameraMovementInput()
         {
-            cameraHorizontalInput = cameraInput.y;
-            cameraVerticalInput = cameraInput.x;
+            cameraHorizontalInput = cameraInput.x;
+            cameraVerticalInput = cameraInput.y;
         }
     }
 }

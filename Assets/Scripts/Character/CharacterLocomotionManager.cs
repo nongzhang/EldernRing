@@ -10,6 +10,11 @@ namespace SG
         {
 
         }
+
+        protected virtual void Update()
+        {
+
+        }
     }
 }
 
