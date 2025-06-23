@@ -171,6 +171,9 @@ MonoBehaviour:
   horizontalInput: 0
   verticalInput: 0
   moveAmount: 0
+  cameraInput: {x: 0, y: 0}
+  cameraHorizontalInput: 0
+  cameraVerticalInput: 0
 --- !u!1 &140418230
 GameObject:
   m_ObjectHideFlags: 0
