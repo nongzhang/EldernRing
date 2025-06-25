@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -10,16 +11,19 @@ namespace SG
         public PlayerManager playerManager;
         PlayerControls playerControls;
 
+        [Header("CAMERA MOVEMENT INPUT")]
+        [SerializeField] Vector2 cameraInput;
+        public float cameraHorizontalInput;
+        public float cameraVerticalInput;
+
         [Header("PLAYER MOVEMENT INPUT")]
         [SerializeField] Vector2 movementInput;
         public float horizontalInput;
         public float verticalInput;
         public float moveAmount;
 
-        [Header("CAMERA MOVEMENT INPUT")]
-        [SerializeField] Vector2 cameraInput;
-        public float cameraHorizontalInput;
-        public float cameraVerticalInput;
+        [Header("PLAYER ACTION INPUT")]
+        [SerializeField] bool dodgeInput = false;
 
         private void Awake()
         {
@@ -53,7 +57,8 @@ namespace SG
                 playerControls = new PlayerControls();
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();   //Lambda±í´ïÊ½
                                                                                                                    //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
-                playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
             }
             playerControls.Enable();
             //SceneManager.activeSceneChanged += OnSceneChange;
@@ -98,8 +103,14 @@ namespace SG
 
         private void Update()
         {
+            HandleAllInput();
+        }
+
+        private void HandleAllInput()
+        {
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
+            HandleDodgeInput();
         }
 
         private void HandlePlayerMovementInput()
@@ -127,6 +138,15 @@ namespace SG
         {
             cameraHorizontalInput = cameraInput.x;
             cameraVerticalInput = cameraInput.y;
+        }
+
+        private void HandleDodgeInput()
+        {
+            if(dodgeInput)
+            {
+                dodgeInput = false;
+                playerManager.playerLocomotionManager.AttemptToPerformDodge();
+            }
         }
     }
 }

@@ -6,16 +6,21 @@ namespace SG
 {
     public class PlayerAnimatorManager : CharacterAnimatorManager
     {
-        // Start is called before the first frame update
-        void Start()
+        PlayerManager playerManager;
+        protected override void Awake()
         {
-
+            base.Awake();
+            playerManager = GetComponent<PlayerManager>();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnAnimatorMove()
         {
-
+            if (playerManager.applyRootMotion)
+            {
+                Vector3 velocity = playerManager.animator.deltaPosition;
+                playerManager.characterController.Move(velocity);
+                playerManager.transform.rotation *= playerManager.animator.deltaRotation;
+            }
         }
     }
 }

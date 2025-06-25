@@ -167,13 +167,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34de44f6bda36ca449396fa488d84660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 0}
+  cameraInput: {x: 0, y: 0}
+  cameraHorizontalInput: 0
+  cameraVerticalInput: 0
   movementInput: {x: 0, y: 0}
   horizontalInput: 0
   verticalInput: 0
   moveAmount: 0
-  cameraInput: {x: 0, y: 0}
-  cameraHorizontalInput: 0
-  cameraVerticalInput: 0
+  dodgeInput: 0
 --- !u!1 &140418230
 GameObject:
   m_ObjectHideFlags: 0
