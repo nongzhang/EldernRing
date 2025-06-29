@@ -17,10 +17,13 @@ namespace SG
         private Vector3 targetRotationDirection;
         [SerializeField] float walkSpeed = 2;
         [SerializeField] float runningSpeed = 5;
+        [SerializeField] float sprintingSpeed = 6.5f;
         [SerializeField] float rotationSpeed = 15;
+        [SerializeField] int sprintingStaminaCost = 2;   
 
         [Header("Dodge")]
         private Vector3 roleDirection;
+        private int dodgeStaminaCost = 25;
 
         protected override void Awake()
         {
@@ -43,7 +46,7 @@ namespace SG
                 horizontalMovement = playerManager.characterNetworkManager.horizontalMovement.Value;
                 moveAmount = playerManager.characterNetworkManager.moveAmount.Value;
 
-                playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);  //未锁定时，水平方向移动值为0
+                playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, playerManager.playerNetworkManager.isSprinting.Value);  //未锁定时，水平方向移动值为0
             }
         }
 
@@ -73,14 +76,21 @@ namespace SG
             moveDirection.Normalize();
             moveDirection.y = 0.00f;
 
-            if (PlayerInputManager.instance.moveAmount > 0.5)
+            if (playerManager.playerNetworkManager.isSprinting.Value)
             {
-                playerManager.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+                playerManager.characterController.Move(moveDirection * sprintingSpeed * Time.deltaTime);
             }
-            else if (PlayerInputManager.instance.moveAmount <= 0.5)
+            else
             {
-                playerManager.characterController.Move(moveDirection * walkSpeed * Time.deltaTime);
-            }
+                if (PlayerInputManager.instance.moveAmount > 0.5)
+                {
+                    playerManager.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+                }
+                else if (PlayerInputManager.instance.moveAmount <= 0.5)
+                {
+                    playerManager.characterController.Move(moveDirection * walkSpeed * Time.deltaTime);
+                }
+            }     
         }
 
         private void HandleRotation()
@@ -103,9 +113,42 @@ namespace SG
             transform.rotation = targetRotation;
         }
 
+        public void HandleSprinting()
+        {
+            if (playerManager.isPerformingAction)
+            {
+                playerManager.playerNetworkManager.isSprinting.Value = false;
+            }
+
+            //当耐力条用完时，无法使用冲刺。当处于移动状态时，可以使用冲刺。当处于静止状态时，不能使用冲刺
+            if (playerManager.playerNetworkManager.currentStamina.Value<=0)
+            {
+                playerManager.playerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+
+            if (moveAmount >= 0.5f)
+            {
+                playerManager.playerNetworkManager.isSprinting.Value = true;
+            }
+            else
+            {
+                playerManager.playerNetworkManager.isSprinting.Value = false;
+            }
+
+            if (playerManager.playerNetworkManager.isSprinting.Value)
+            { 
+                playerManager.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
+            }
+        }
+
         public void AttemptToPerformDodge()
         {
             if (playerManager.isPerformingAction)
+            {
+                return;
+            }
+            if (playerManager.playerNetworkManager.currentStamina.Value <= 0)
             {
                 return;
             }
@@ -126,7 +169,7 @@ namespace SG
             {
                 playerManager.playerAnimatorManager.PlayTargetActionAnimation("Back_Step_01", true, true);
             }
-            
+            playerManager.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
         }
     }
 

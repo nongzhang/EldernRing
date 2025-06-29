@@ -8,17 +8,27 @@ namespace SG
     public class CharacterAnimatorManager : MonoBehaviour
     {
         CharacterManager characterManager;
-        float vertical;
-        float horizontal;
+        int vertical;
+        int horizontal;
         protected virtual void Awake()
         {
             characterManager = GetComponent<CharacterManager>();
+            vertical = Animator.StringToHash("Vertical");
+            horizontal = Animator.StringToHash("Horizontal");   //不使用string而是转化为int, 这样更节省内存
         }
-        public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement)
+        public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement,bool isSprinting)
         {
-            characterManager.animator.SetFloat("Horizontal", horizontalMovement,0.1f, Time.deltaTime);
-            characterManager.animator.SetFloat("Vertical", verticalMovement, 0.1f, Time.deltaTime);
+            float horizontalAmount = horizontalMovement;
+            float verticalAmount = verticalMovement;
+            if (isSprinting)
+            {
+                verticalAmount = 2;   //动画混合树里面，竖直方向值为2时表示冲刺
+            }
 
+            characterManager.animator.SetFloat(horizontal, horizontalAmount, 0.1f, Time.deltaTime);
+            characterManager.animator.SetFloat(vertical, verticalAmount, 0.1f, Time.deltaTime);
+
+            #region 另一种实现方式
             //如果动画看起来不怎么好，或者混合时看起来不太正常，可使用以下方式
             //float snappedHorizontal = 0;
             //float snappedVertical = 0;
@@ -67,10 +77,19 @@ namespace SG
             //{
             //    snappedVertical = 0;
             //}
-            //#endregion 
+            #endregion 
 
             //characterManager.animator.SetFloat("Horizontal", snappedHorizontal);
             //characterManager.animator.SetFloat("Vertical", snappedVertical);
+
+            //if (isSprinting)
+            //{
+            //    snappedVertical = 2;   //动画混合树里面，竖直方向值为2时表示冲刺
+            //}
+
+            //characterManager.animator.SetFloat(horizontal, snappedHorizontal, 0.1f, Time.deltaTime);
+            //characterManager.animator.SetFloat(vertical, snappedVertical, 0.1f, Time.deltaTime);
+            //#endregion
         }
 
         //在播放目标行动动画时，禁用移动和旋转

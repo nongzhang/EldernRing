@@ -14,9 +14,12 @@ namespace SG
 
         [Header("Flag")]
         public bool isPerformingAction = false;
-        public bool applyRootMotion = false;
+        public bool applyRootMotion = true;
         public bool canRotate = true;
         public bool canMove = true;
+
+        
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
@@ -47,6 +50,8 @@ namespace SG
         {
 
         }
+
+        
     }
 }
 

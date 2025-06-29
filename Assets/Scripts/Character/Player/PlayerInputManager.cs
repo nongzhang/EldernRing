@@ -24,6 +24,7 @@ namespace SG
 
         [Header("PLAYER ACTION INPUT")]
         [SerializeField] bool dodgeInput = false;
+        [SerializeField] bool sprintInput = false;
 
         private void Awake()
         {
@@ -59,6 +60,11 @@ namespace SG
                                                                                                                    //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
                 playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+
+                //按住输入，将sprintInput设为true
+                playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
+                //松开(释放)输入，将sprintInput设为false
+                playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
             }
             playerControls.Enable();
             //SceneManager.activeSceneChanged += OnSceneChange;
@@ -111,6 +117,7 @@ namespace SG
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
+            HandleSprinting();
         }
 
         private void HandlePlayerMovementInput()
@@ -131,7 +138,7 @@ namespace SG
             {
                 return;
             }
-            playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+            playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, playerManager.playerNetworkManager.isSprinting.Value);
         }
 
         private void HandleCameraMovementInput()
@@ -146,6 +153,18 @@ namespace SG
             {
                 dodgeInput = false;
                 playerManager.playerLocomotionManager.AttemptToPerformDodge();
+            }
+        }
+
+        private void HandleSprinting()
+        {
+            if (sprintInput)
+            {
+                playerManager.playerLocomotionManager.HandleSprinting();
+            }
+            else
+            {
+                playerManager.playerNetworkManager.isSprinting.Value = false;
             }
         }
     }
