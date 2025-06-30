@@ -23,7 +23,7 @@ namespace SG
 
         [Header("Dodge")]
         private Vector3 roleDirection;
-        private int dodgeStaminaCost = 25;
+        private float dodgeStaminaCost = 2.5f;
 
         protected override void Awake()
         {

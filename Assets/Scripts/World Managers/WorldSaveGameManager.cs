@@ -8,7 +8,7 @@ namespace SG
     public class WorldSaveGameManager : MonoBehaviour
     {
         public static WorldSaveGameManager instance;
-        [SerializeField]private PlayerManager playerManager;
+        public PlayerManager playerManager;
 
         [Header("SAVE/LOAD")]
         [SerializeField] bool saveGame;
@@ -113,11 +113,33 @@ namespace SG
             return fileName;
         }
 
-        public void CreateNewGame()
+        public void AttemptCreateNewGame()
         {
-            saveFileName = DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(currentCharacterSlotBeingUsed);
+            saveFileDataWriter = new SaveFileDataWriter();
+            saveFileDataWriter.saveDataDirectoryPath = Application.persistentDataPath;
+            //先检查是否有其他的存档文件，如果没有就以正在使用的存档槽为名创建一个新存档文件
+            saveFileDataWriter.saveFileName = DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_01);
+            
+            if (!saveFileDataWriter.CheckToSeeIfFileExists())
+            {
+                //如果这个存档槽没有被使用，创建一个新的使用这个槽
+                currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_01;
+                currentCharacterSaveData = new CharacterSaveData();
+                StartCoroutine(LoadWorldScene());
+                return;
+            }
 
-            currentCharacterSaveData = new CharacterSaveData();
+            saveFileDataWriter.saveFileName = DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_02);
+            if (!saveFileDataWriter.CheckToSeeIfFileExists())
+            {
+                currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_02;
+                currentCharacterSaveData = new CharacterSaveData();
+                StartCoroutine(LoadWorldScene());
+                return;
+            }
+
+            TitleScreenManager.Instance.DisplayNoFreeCharacterSlotsPopUp();
+
         }
 
         public void LoadGame()
@@ -126,7 +148,7 @@ namespace SG
             saveFileDataWriter = new SaveFileDataWriter();
             saveFileDataWriter.saveDataDirectoryPath = Application.persistentDataPath;
             saveFileDataWriter.saveFileName = saveFileName;
-            saveFileDataWriter.LoadSaveFile();
+            currentCharacterSaveData = saveFileDataWriter.LoadSaveFile();
 
             StartCoroutine(LoadWorldScene());
         }
@@ -185,6 +207,7 @@ namespace SG
         public IEnumerator LoadWorldScene()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+            playerManager.LoadGameFromCurrentCharacterData(ref currentCharacterSaveData);
             yield return null;
         }
     }

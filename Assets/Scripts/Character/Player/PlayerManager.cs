@@ -47,6 +47,7 @@ namespace SG
             {
                 PlayerCamera.instance.playerManager = this;
                 PlayerInputManager.instance.playerManager = this;
+                WorldSaveGameManager.instance.playerManager = this;
 
                 playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
                 playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
