@@ -58,5 +58,20 @@ namespace SG
                 
             }
         }
+
+        public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
+            currentCharacterData.xPos = transform.position.x;
+            currentCharacterData.yPos = transform.position.y;
+            currentCharacterData.zPos = transform.position.z;
+        }
+
+        public void LoadGameFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            playerNetworkManager.characterName.Value = currentCharacterData.characterName;
+            Vector3 myPosition = new Vector3(currentCharacterData.xPos, currentCharacterData.yPos, currentCharacterData.zPos);
+            transform.position = myPosition;
+        }
     }
 }
