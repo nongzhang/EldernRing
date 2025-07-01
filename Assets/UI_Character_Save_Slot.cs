@@ -61,7 +61,7 @@ namespace SG
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot02.characterName;
+                    characterName.text = WorldSaveGameManager.instance.characterSlot03.characterName;
                 }
                 else
                 {
@@ -152,7 +152,7 @@ namespace SG
                     gameObject.SetActive(false);
                 }
             }
-            else if (characterSlot == CharacterSlot.CharacterSlot_010)
+            else if (characterSlot == CharacterSlot.CharacterSlot_10)
             {
                 saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
@@ -173,6 +173,11 @@ namespace SG
         {
             WorldSaveGameManager.instance.currentCharacterSlotBeingUsed = characterSlot;
             WorldSaveGameManager.instance.LoadGame();
+        }
+
+        public void SelectCurrentSlot()
+        {
+            TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
         }
     }
 }

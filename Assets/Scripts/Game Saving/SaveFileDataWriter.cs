@@ -25,6 +25,8 @@ namespace SG
 
         public void DeleteSaveFile()
         {
+            Debug.Log(saveDataDirectoryPath);
+            Debug.Log(saveFileName);
             File.Delete(Path.Combine(saveDataDirectoryPath, saveFileName));
         }
 
