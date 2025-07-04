@@ -1621,8 +1621,9 @@ GameObject:
   - component: {fileID: 1995096427422564908}
   - component: {fileID: -5743808709478221308}
   - component: {fileID: 4782559585517730272}
-  - component: {fileID: 8997673321547494466}
   - component: {fileID: 8225964993227796382}
+  - component: {fileID: -1582131489521822623}
+  - component: {fileID: 8997673321547494466}
   - component: {fileID: 5668741261569700659}
   m_Layer: 6
   m_Name: Player
@@ -1849,12 +1850,14 @@ MonoBehaviour:
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
-  jumpHeight: 4
   walkSpeed: 1.5
   runningSpeed: 4.5
   sprintingSpeed: 7
   rotationSpeed: 15
   sprintingStaminaCost: 2
+  jumpHeight: 4
+  jumpForwardSpeed: 5
+  freeFallSpeed: 2
 --- !u!114 &4782559585517730272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,6 +1870,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf15c35fae7c1b34891c2f56cf6b3ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8225964993227796382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609010990445434286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbc6c613f2ebf7244ad7b1df8ae608c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1582131489521822623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609010990445434286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba6d6cb13c16224d860b97b21223613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectToTest: {fileID: 11400000, guid: 9b20723c5a9d9824c8477f5c9d348ddc, type: 2}
+  processEffect: 0
 --- !u!143 &8997673321547494466
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1885,18 +1914,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.94, z: 0}
---- !u!114 &8225964993227796382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7609010990445434286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc6c613f2ebf7244ad7b1df8ae608c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &5668741261569700659
 AudioSource:
   m_ObjectHideFlags: 0
