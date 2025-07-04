@@ -14,7 +14,9 @@ namespace SG
 
         [Header("Flag")]
         public bool isPerformingAction = false;
-        public bool applyRootMotion = true;
+        public bool applyRootMotion = false;
+        public bool isJumping = false;
+        public bool isGrounded = true;
         public bool canRotate = true;
         public bool canMove = true;
 
@@ -30,6 +32,7 @@ namespace SG
 
         protected virtual void Update()
         {
+            animator.SetBool("isGrounded", isGrounded);
             if (IsOwner)
             {
                 characterNetworkManager.networkPosition.Value = transform.position; //如果角色是我们自身控制的，那么就把它的位置赋值给网络位置

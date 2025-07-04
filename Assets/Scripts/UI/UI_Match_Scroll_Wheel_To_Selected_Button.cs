@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace SG
 {
+    //控制存档槽上下运动
     public class UI_Match_Scroll_Wheel_To_Selected_Button : MonoBehaviour
     {
         [SerializeField] GameObject currentSelected;

@@ -30,7 +30,7 @@ namespace SG
             {
                 saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
-                //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
+                //如果有存档文件，那么就会从文件中获取信息，否则禁用它，隐藏存档条
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
                     characterName.text = WorldSaveGameManager.instance.characterSlot01.characterName;

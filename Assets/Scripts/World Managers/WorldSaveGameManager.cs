@@ -295,6 +295,12 @@ namespace SG
             playerManager.LoadGameFromCurrentCharacterData(ref currentCharacterSaveData);
             yield return null;
         }
+
+        ////如果你想使用多场景设置，新角色进入游戏时没有当前场景索引  no current scene index
+        //private IEnumerator LoadWorldSceneNewGame()
+        //{
+
+        //}
     }
 }
 

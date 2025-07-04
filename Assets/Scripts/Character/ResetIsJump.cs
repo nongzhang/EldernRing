@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SG 
+namespace SG
 {
-    public class ResetActionFlag : StateMachineBehaviour
+    public class ResetIsJump : StateMachineBehaviour
     {
         CharacterManager characterManager;
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -14,11 +14,6 @@ namespace SG
             {
                 characterManager = animator.GetComponent<CharacterManager>();
             }
-            //当准备进入并执行状态时，这里是Empty,将flag设为false
-            characterManager.isPerformingAction = false;
-            characterManager.applyRootMotion = false;
-            characterManager.canRotate = true;
-            characterManager.canMove = true;
             characterManager.isJumping = false;
         }
 

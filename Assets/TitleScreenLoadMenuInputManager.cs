@@ -26,8 +26,7 @@ namespace SG
             if (playerControls == null)
             {
                 playerControls = new PlayerControls();
-                playerControls.UI.X.performed += i => deleteCharacterSlot = true;
-                Debug.Log("bangding succeed");               
+                playerControls.UI.X.performed += i => deleteCharacterSlot = true;              
             }
             playerControls.Enable();
         }

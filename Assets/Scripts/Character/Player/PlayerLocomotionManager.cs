@@ -19,11 +19,19 @@ namespace SG
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 6.5f;
         [SerializeField] float rotationSpeed = 15;
-        [SerializeField] int sprintingStaminaCost = 2;   
+        [SerializeField] int sprintingStaminaCost = 2;
+
+        [Header("Jump")]
+        private float jumpStaminaCost = 2.5f;
+        [SerializeField] float jumpHeight = 4.0f;
+        [SerializeField] float jumpForwardSpeed = 5;
+        [SerializeField] float freeFallSpeed = 2;
+        private Vector3 jumpDirection;
 
         [Header("Dodge")]
         private Vector3 roleDirection;
         private float dodgeStaminaCost = 2.5f;
+        
 
         protected override void Awake()
         {
@@ -54,6 +62,8 @@ namespace SG
         {
             HandleGroundedMovement();
             HandleRotation();
+            HandleJumpingMovement();
+            HandleFreeFallMovement();
         }
 
         private void GetMovementValue()
@@ -91,6 +101,31 @@ namespace SG
                     playerManager.characterController.Move(moveDirection * walkSpeed * Time.deltaTime);
                 }
             }     
+        }
+
+        private void HandleJumpingMovement()
+        {
+            if (playerManager.isJumping)
+            {
+                playerManager.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
+            }
+        }
+
+        /// <summary>
+        /// 玩家控制的角色可以在下落期间仍旧可以在水平方向运动，只是运动的速度很小
+        /// </summary>
+        private void HandleFreeFallMovement()
+        {
+            if (!playerManager.isGrounded)
+            {
+                Vector3 freeFallDirection;
+
+                freeFallDirection = PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
+                freeFallDirection += PlayerCamera.instance.transform.right * PlayerInputManager.instance.horizontalInput;
+                freeFallDirection.y = 0;
+
+                playerManager.characterController.Move(freeFallDirection * freeFallSpeed * Time.deltaTime);
+            }
         }
 
         private void HandleRotation()
@@ -170,6 +205,67 @@ namespace SG
                 playerManager.playerAnimatorManager.PlayTargetActionAnimation("Back_Step_01", true, true);
             }
             playerManager.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
+        }
+
+        public void AttemptToPerformJump()
+        {
+            //正在执行某种通用动作，比如交互、捡物、翻滚等,此时不允许跳跃(未来当加入战斗系统后，逻辑可能会发生变化,比如跳劈)
+            if (playerManager.isPerformingAction)
+            {
+                return;
+            }
+
+            //耐力值耗尽时不允许跳跃
+            if (playerManager.playerNetworkManager.currentStamina.Value <= 0)
+            {
+                return;
+            }
+
+            //正在跳跃状态时，不允许跳跃
+            if (playerManager.isJumping)
+            {
+                return;
+            }
+
+            //如果不在地面状态时，比如在空中，不允许跳跃
+            if (!playerManager.isGrounded)
+            {
+                return;
+            }
+
+            //
+
+            playerManager.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump_01", false);  //isPerformingAction设为false, 原因是可能有跳劈
+            playerManager.isJumping = true;
+            playerManager.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+            jumpDirection = PlayerCamera.instance.cameraObject.transform.forward * PlayerInputManager.instance.verticalInput;
+            jumpDirection += PlayerCamera.instance.cameraObject.transform.right * PlayerInputManager.instance.horizontalInput;
+            jumpDirection.y = 0;
+
+            if (jumpDirection != Vector3.zero)
+            {
+                //如果在冲刺中，跳跃方向是全距离
+                if (playerManager.playerNetworkManager.isSprinting.Value)
+                {
+                    jumpDirection *= 1;
+                }
+                //如果在奔跑中，跳跃方向是半距离
+                else if (PlayerInputManager.instance.moveAmount > 0.5)
+                {
+                    jumpDirection *= 0.5f;
+                }
+                //如果在行走中，跳跃方向是四分之一距离
+                else if (PlayerInputManager.instance.moveAmount <= 0.5f)
+                {
+                    jumpDirection *= 0.25f;
+                }
+            }
+            
+        }
+
+        public void ApplyJumpingVelocity()
+        {
+            yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);     //根据期望的跳跃高度和重力大小，计算角色在起跳时所需的垂直初速度。
         }
     }
 

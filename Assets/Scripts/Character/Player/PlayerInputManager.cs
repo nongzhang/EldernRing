@@ -25,6 +25,7 @@ namespace SG
         [Header("PLAYER ACTION INPUT")]
         [SerializeField] bool dodgeInput = false;
         [SerializeField] bool sprintInput = false;
+        [SerializeField] bool jumpInput = false;
 
         private void Awake()
         {
@@ -60,6 +61,7 @@ namespace SG
                                                                                                                    //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
                 playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+                playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -117,7 +119,8 @@ namespace SG
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
-            HandleSprinting();
+            HandleSprintInput();
+            HandleJumpInput();
         }
 
         private void HandlePlayerMovementInput()
@@ -156,7 +159,7 @@ namespace SG
             }
         }
 
-        private void HandleSprinting()
+        private void HandleSprintInput()
         {
             if (sprintInput)
             {
@@ -167,6 +170,19 @@ namespace SG
                 playerManager.playerNetworkManager.isSprinting.Value = false;
             }
         }
+
+        private void HandleJumpInput()
+        {
+            if (jumpInput)
+            {
+                jumpInput = false;
+
+                //如果UI菜单打开，那么什么不要做，直接返回。当你使用手柄映射 SouthButton Gamepad同时控制跳跃和菜单操作时，Xbox是A,PS是X
+
+                playerManager.playerLocomotionManager.AttemptToPerformJump();
+            }
+        }
+
     }
 }
 
