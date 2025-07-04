@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SG
 {
     public class CharacterLocomotionManager : MonoBehaviour
     {
+        public static CharacterLocomotionManager instance;
         CharacterManager characterManager;
 
         [Header("Ground CHeck & Jumping")]
@@ -23,10 +25,41 @@ namespace SG
         protected virtual void Awake()
         {
             characterManager = GetComponent<CharacterManager>();
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        protected virtual void Start()
+        {
+            //SceneManager.activeSceneChanged += OnSceneChange;
+            //instance.enabled = false;
+
+        }
+
+        private void OnSceneChange(Scene oldScene, Scene newScene)
+        {
+            if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
+            {
+                instance.enabled = true;
+            }
+            else
+            {
+                instance.enabled = false;
+            }
         }
 
         protected virtual void Update()
         {
+            if (SceneManager.GetActiveScene().name == "Scene_Main_Menu_01")
+            {
+                return;
+            }
             HandleGroundCheck();
 
             if (characterManager.isGrounded)
@@ -64,6 +97,11 @@ namespace SG
         protected void OnDrawGizmosSelected()
         {
             Gizmos.DrawSphere(characterManager.transform.position, groundCheckSphereRadius);
+        }
+
+        protected void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= OnSceneChange;
         }
     }
 }
