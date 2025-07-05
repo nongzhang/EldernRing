@@ -6,16 +6,20 @@ namespace SG
 {
     public class PlayerStatsManager : CharacterStatsManager
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        PlayerManager playerManager;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            playerManager = GetComponent<PlayerManager>();
         }
 
-        // Update is called once per frame
-        void Update()
+        protected override void Start()
         {
-
+            base.Start();
+            CalculateHealthBasedOnVitalityLevel(playerManager.characterNetworkManager.vitality.Value);
+            CalculateStaminaBasedOnEnduranceLevel(playerManager.characterNetworkManager.endurance.Value);
         }
+
     }
 }

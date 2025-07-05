@@ -6,7 +6,7 @@ namespace SG
 {
     public class CharacterEffectManager : MonoBehaviour
     {
-        //处理及时效果，比如受到伤害，治疗等
+        //处理即时效果，比如受到伤害，治疗等
 
         //处理持续效果，比如中毒等
 

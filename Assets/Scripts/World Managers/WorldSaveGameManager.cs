@@ -126,7 +126,7 @@ namespace SG
                 //如果这个存档槽没有被使用，创建一个新的使用这个槽
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_01;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_02;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -144,7 +144,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_03;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -153,7 +153,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_04;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -162,7 +162,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_05;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -171,7 +171,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_06;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -180,7 +180,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_07;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -189,7 +189,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_08;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -198,7 +198,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_09;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -207,7 +207,7 @@ namespace SG
             {
                 currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_10;
                 currentCharacterSaveData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
 
@@ -215,6 +215,12 @@ namespace SG
 
         }
 
+        private void NewGame()
+        {
+            //保存新创建的角色状态，还有物品(当创建角色页面加入后)
+            SaveGame();
+            StartCoroutine(LoadWorldScene());
+        }
         public void LoadGame()
         {
             saveFileName = DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(currentCharacterSlotBeingUsed);

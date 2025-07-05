@@ -22,7 +22,7 @@ namespace SG
         [SerializeField] int sprintingStaminaCost = 2;
 
         [Header("Jump")]
-        private float jumpStaminaCost = 2.5f;
+        private float jumpStaminaCost = 25f;
         [SerializeField] float jumpHeight = 4.0f;
         [SerializeField] float jumpForwardSpeed = 5;
         [SerializeField] float freeFallSpeed = 2;
@@ -30,7 +30,7 @@ namespace SG
 
         [Header("Dodge")]
         private Vector3 roleDirection;
-        private float dodgeStaminaCost = 2.5f;
+        private float dodgeStaminaCost = 25f;
         
 
         protected override void Awake()

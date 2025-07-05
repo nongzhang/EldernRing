@@ -20,6 +20,20 @@ namespace SG
             characterManager = GetComponent<CharacterManager>();
         }
 
+        protected virtual void Start()
+        {
+
+        }
+
+        public int CalculateHealthBasedOnVitalityLevel(int vitality)
+        {
+            float health = 0;
+
+            //生命值计算公式（基于生命力属性值）
+            health = vitality * 15;
+            return Mathf.RoundToInt(health);
+        }
+
         public int CalculateStaminaBasedOnEnduranceLevel(int endurance)
         {
             float stamina = 0;
