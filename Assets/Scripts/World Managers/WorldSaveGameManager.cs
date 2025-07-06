@@ -218,6 +218,8 @@ namespace SG
         private void NewGame()
         {
             //保存新创建的角色状态，还有物品(当创建角色页面加入后)
+            playerManager.playerNetworkManager.vitality.Value = 10;
+            playerManager.playerNetworkManager.endurance.Value = 10;
             SaveGame();
             StartCoroutine(LoadWorldScene());
         }
