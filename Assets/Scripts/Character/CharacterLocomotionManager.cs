@@ -69,7 +69,7 @@ namespace SG
 
         protected void OnDrawGizmosSelected()
         {
-            Gizmos.DrawSphere(characterManager.transform.position, groundCheckSphereRadius);
+            //Gizmos.DrawSphere(characterManager.transform.position, groundCheckSphereRadius);
         }
     }
 }

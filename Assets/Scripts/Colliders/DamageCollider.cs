@@ -25,7 +25,7 @@ namespace Sg
 
         private void OnTriggerEnter(Collider other)
         {
-            CharacterManager damageTarget = other.GetComponent<CharacterManager>();
+            CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();  //角色各个关节的碰撞器比较多，所以一般会碰到这个，而CharacterManager脚本是挂载在父物体Player身上的
 
             if (damageTarget != null)
             {

@@ -36,6 +36,10 @@ namespace SG
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         }
 
+        protected virtual void Start()
+        {
+            IgnoreMyOwnColliders();
+        }
         protected virtual void Update()
         {
             animator.SetBool("isGrounded", isGrounded);
@@ -80,6 +84,37 @@ namespace SG
         public virtual void ReviveCharacter()
         {
 
+        }
+
+        //忽略自身各个关节的碰撞器之间的碰撞
+        protected virtual void IgnoreMyOwnColliders()
+        {
+            Collider characterControllerCollider = GetComponent<Collider>();
+            Collider[] damageableCharacterColliders = GetComponentsInChildren<Collider>();
+            List<Collider> ignoreColliders = new List<Collider>();
+
+            foreach (var collider in damageableCharacterColliders)
+            {
+                ignoreColliders.Add(collider);
+            }
+
+            ignoreColliders.Add(characterControllerCollider);
+
+            //foreach (var collider in ignoreColliders)
+            //{
+            //    foreach (var otherCollider in ignoreColliders)
+            //    {
+            //        Physics.IgnoreCollision(collider, otherCollider, true);
+            //    }
+            //}
+
+            for (int i = 0; i < ignoreColliders.Count; i++)
+            {
+                for (int j = i + 1; j < ignoreColliders.Count; j++)
+                {
+                    Physics.IgnoreCollision(ignoreColliders[i], ignoreColliders[j], true);
+                }
+            }
         }
     }
 }
