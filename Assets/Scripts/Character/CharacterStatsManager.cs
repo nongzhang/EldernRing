@@ -6,6 +6,7 @@ using Unity.Netcode;
 
 namespace SG
 {
+    //角色状态管理器，一般角色有血量，魔法量，耐力这三种状态
     public class CharacterStatsManager : MonoBehaviour
     {
         CharacterManager characterManager;
@@ -75,6 +76,7 @@ namespace SG
             }
         }
 
+        //重置耐力恢复计时器。因为耐力是在动作结束之后2s开始恢复的，如果我们在这期间有任何打断它的行为(比如任何耗费耐力的动作)，那么就重新开始计时
         public virtual void ResetStaminaRegenTimer(float previousStaminaAmount, float currentStaminaAmount)
         {
             //只有当这个动作消耗耐力时，我们才会重置恢复

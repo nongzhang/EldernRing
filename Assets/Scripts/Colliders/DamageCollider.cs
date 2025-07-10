@@ -7,6 +7,9 @@ namespace Sg
 {
     public class DamageCollider : MonoBehaviour
     {
+        [Header("Collider")]
+        protected Collider damageCollider;
+
         [Header("Damage")]
         public float physicalDamage = 0;
         public float magicDamage = 0;
@@ -50,6 +53,17 @@ namespace Sg
             damageEffect.contactPoint = contactPoint;
 
             damageTarget.characterEffectManager.ProcessInstantEffect(damageEffect);
+        }
+
+        public virtual void EnableDamageCollider()
+        {
+            damageCollider.enabled = true;
+        }
+
+        public virtual void DisableDamageCollider()
+        {
+            damageCollider.enabled = false;
+            charactersDamaged.Clear();  //这样，在下一次攻击中，我们又可以对角色造成伤害
         }
     }
 }

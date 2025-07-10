@@ -8,10 +8,14 @@ namespace SG
     {
         [Header("DEBUG MENU")]
         [SerializeField] bool respawnCharacter = false;
+        [SerializeField] bool switchRightWeapon = false;
+
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
         [HideInInspector] public PlayerStatsManager playerStatsManager;
+        [HideInInspector] public PlayerInventoryManager playerInventoryManager;
+        [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
         protected override void Awake()
         {
             base.Awake();
@@ -19,6 +23,8 @@ namespace SG
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerNetworkManager = GetComponent<PlayerNetworkManager>();
             playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
         }
 
         protected override void Update()
@@ -62,7 +68,12 @@ namespace SG
  
             }
 
+            //×´Ì¬
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
+
+            //×°±¸
+            playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
+            playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         }
 
         public override IEnumerator ProcessdeathEvent(bool manuallySelectDeathAnimation = false)
@@ -125,6 +136,12 @@ namespace SG
             {
                 respawnCharacter = false;
                 ReviveCharacter();
+            }
+
+            if (switchRightWeapon)
+            {
+                switchRightWeapon = false;
+                playerEquipmentManager.SwitchRightWeapon();
             }
         }
         
