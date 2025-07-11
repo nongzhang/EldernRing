@@ -300,7 +300,7 @@ namespace SG
         public IEnumerator LoadWorldScene()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
-            playerManager.LoadGameFromCurrentCharacterData(ref currentCharacterSaveData);
+            playerManager.LoadGameDataFromCurrentCharacterData(ref currentCharacterSaveData);
             yield return null;
         }
 

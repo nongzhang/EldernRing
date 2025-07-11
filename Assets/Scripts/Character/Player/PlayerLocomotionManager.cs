@@ -105,7 +105,7 @@ namespace SG
 
         private void HandleJumpingMovement()
         {
-            if (playerManager.isJumping)
+            if (playerManager.playerNetworkManager.isJumping.Value)
             {
                 playerManager.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
             }
@@ -222,7 +222,7 @@ namespace SG
             }
 
             //正在跳跃状态时，不允许跳跃
-            if (playerManager.isJumping)
+            if (playerManager.playerNetworkManager.isJumping.Value)
             {
                 return;
             }
@@ -236,7 +236,7 @@ namespace SG
             //
 
             playerManager.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump_01", false);  //isPerformingAction设为false, 原因是可能有跳劈
-            playerManager.isJumping = true;
+            playerManager.playerNetworkManager.isJumping.Value = true;
             playerManager.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
             jumpDirection = PlayerCamera.instance.cameraObject.transform.forward * PlayerInputManager.instance.verticalInput;
             jumpDirection += PlayerCamera.instance.cameraObject.transform.right * PlayerInputManager.instance.horizontalInput;

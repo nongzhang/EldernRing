@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
@@ -15,9 +15,9 @@ namespace SG
         [SerializeField] protected float gravityForce = -5.55f;
         [SerializeField] LayerMask groundLayer;
         [SerializeField] float groundCheckSphereRadius = 1;
-        [SerializeField] protected Vector3 yVelocity;                  //½ÇÉ«±»ÏòÉÏ»òÏòÏÂÀ­µÄ¡°Á¦¡±£¨ÌøÔ¾»òÏÂÂäÊ±£©,CCÕâ¸ö×é¼şµÄisGroundedµÄ¼ì²âÊÇÉÏÒ»¸ö¶¯×÷½áÊøºó£¬ËùÒÔÎÒÃÇ±ØĞë¸øËü¼ÓÒ»¸ö³ÖĞøÏòÏÂµÄÁ¦
-        [SerializeField] protected float groundedYVelocity = -20;      //½ÇÉ«ÌùµØÊ±ËùÊ©¼ÓµÄ¡°Îü¸½µØÃæ¡±µÄÁ¦
-        [SerializeField] protected float fallStartYVelocity = -5;      //µ±½ÇÉ«ÀëµØ¿ªÊ¼ÏÂÂäÊ±µÄ³õÊ¼ÏÂÂä¡°Á¦¡±£¨Ëæ×ÅÏÂÂäÊ±¼äÔö¼Ó£¬ÊıÖµ±ä´ó£© Õâ»áÊ¹Íæ¼ÒÌåÑé¸üÓÅ
+        [SerializeField] protected Vector3 yVelocity;                  //è§’è‰²è¢«å‘ä¸Šæˆ–å‘ä¸‹æ‹‰çš„â€œåŠ›â€ï¼ˆè·³è·ƒæˆ–ä¸‹è½æ—¶ï¼‰,CCè¿™ä¸ªç»„ä»¶çš„isGroundedçš„æ£€æµ‹æ˜¯ä¸Šä¸€ä¸ªåŠ¨ä½œç»“æŸåï¼Œæ‰€ä»¥æˆ‘ä»¬å¿…é¡»ç»™å®ƒåŠ ä¸€ä¸ªæŒç»­å‘ä¸‹çš„åŠ›
+        [SerializeField] protected float groundedYVelocity = -20;      //è§’è‰²è´´åœ°æ—¶æ‰€æ–½åŠ çš„â€œå¸é™„åœ°é¢â€çš„åŠ›
+        [SerializeField] protected float fallStartYVelocity = -5;      //å½“è§’è‰²ç¦»åœ°å¼€å§‹ä¸‹è½æ—¶çš„åˆå§‹ä¸‹è½â€œåŠ›â€ï¼ˆéšç€ä¸‹è½æ—¶é—´å¢åŠ ï¼Œæ•°å€¼å˜å¤§ï¼‰ è¿™ä¼šä½¿ç©å®¶ä½“éªŒæ›´ä¼˜
         protected bool fallingVelocityHasBeenSet = false;
         [SerializeField] protected float inAirTime = 0;
 
@@ -29,15 +29,15 @@ namespace SG
 
         protected virtual void Update()
         {
-            if (SceneManager.GetActiveScene().name == "Scene_Main_Menu_01")
-            {
-                return;
-            }
+            //if (SceneManager.GetActiveScene().name == "Scene_Main_Menu_01")
+            //{
+            //    return;
+            //}
             HandleGroundCheck();
 
             if (characterManager.isGrounded)
             {
-                //Èç¹ûÎÒÃÇÃ»ÓĞ³¢ÊÔÌøÔ¾»òÏòÉÏÒÆ¶¯
+                //å¦‚æœæˆ‘ä»¬æ²¡æœ‰å°è¯•è·³è·ƒæˆ–å‘ä¸Šç§»åŠ¨
                 if (yVelocity.y < 0)
                 {
                     inAirTime = 0;
@@ -47,8 +47,8 @@ namespace SG
             }
             else
             {
-                //Èç¹ûÎÒÃÇÃ»ÓĞÌøÔ¾£¬ÏÂÂäËÙ¶ÈÒ²Ã»ÓĞÉè¶¨
-                if (!characterManager.isJumping && !fallingVelocityHasBeenSet)
+                //å¦‚æœæˆ‘ä»¬æ²¡æœ‰è·³è·ƒï¼Œä¸‹è½é€Ÿåº¦ä¹Ÿæ²¡æœ‰è®¾å®š
+                if (!characterManager.characterNetworkManager.isJumping.Value && !fallingVelocityHasBeenSet)
                 {
                     fallingVelocityHasBeenSet = true;
                     yVelocity.y = fallStartYVelocity;
@@ -57,7 +57,7 @@ namespace SG
                 characterManager.animator.SetFloat("InAirTime", inAirTime);
                 yVelocity.y += gravityForce * Time.deltaTime; 
             }
-            //Ó¦¸ÃÊ¼ÖÕÓĞÄ³ÖÖÁ¦×÷ÓÃÓÚ Y ·½ÏòµÄËÙ¶È¡£
+            //åº”è¯¥å§‹ç»ˆæœ‰æŸç§åŠ›ä½œç”¨äº Y æ–¹å‘çš„é€Ÿåº¦ã€‚
             characterManager.characterController.Move(yVelocity * Time.deltaTime);
 
         }

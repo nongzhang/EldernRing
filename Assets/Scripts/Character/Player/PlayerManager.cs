@@ -74,6 +74,12 @@ namespace SG
             //装备
             playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+
+            //当连接成功时，如果我们是这个角色的拥有者（Owner），但不是服务器（Server），则需要将保存的角色数据加载到刚生成的角色对象中。如果我们是服务器，就不需要运行这段逻辑，因为服务器作为主机（Host）已经完成了加载，不需要重新加载数据。
+            if (IsOwner && !IsServer)
+            {
+                LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterSaveData);
+            }
         }
 
         public override IEnumerator ProcessdeathEvent(bool manuallySelectDeathAnimation = false)
@@ -114,7 +120,7 @@ namespace SG
             currentCharacterData.endurance = playerNetworkManager.endurance.Value;
         }
 
-        public void LoadGameFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
             playerNetworkManager.characterName.Value = currentCharacterData.characterName;
             Vector3 myPosition = new Vector3(currentCharacterData.xPos, currentCharacterData.yPos, currentCharacterData.zPos);

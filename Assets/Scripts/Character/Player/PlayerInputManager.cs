@@ -45,6 +45,11 @@ namespace SG
             if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
             {
                 instance.enabled = true;
+
+                if (playerControls != null)
+                {
+                    playerControls.Enable();
+                }
             }
             else
             {
@@ -82,6 +87,10 @@ namespace SG
             DontDestroyOnLoad(gameObject);
             SceneManager.activeSceneChanged += OnSceneChange;    //将这个事件放在Start里面是因为，刚进入游戏时，在菜单界面，我并不想让Input生效，只有到世界场景中时，才让输入控制生效
             instance.enabled = false;
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
         }
 
         //private void OnDisable()
