@@ -4,7 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using Unity.Netcode;
 
-namespace SG
+namespace NZ
 {
     //角色状态管理器，一般角色有血量，魔法量，耐力这三种状态
     public class CharacterStatsManager : MonoBehaviour

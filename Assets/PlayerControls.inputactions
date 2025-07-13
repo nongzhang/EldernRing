@@ -153,66 +153,11 @@
             ],
             "bindings": [
                 {
-                    "name": "Mouse",
-                    "id": "55b30bbf-b312-418b-ac32-a28b8351a3e8",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Up",
-                    "id": "6cec29cb-b4a1-41a9-9897-005562cfa470",
-                    "path": "<Mouse>/delta/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Down",
-                    "id": "7d58e364-c93e-4606-90fd-7719ae61964e",
-                    "path": "<Mouse>/delta/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Left",
-                    "id": "eb173a91-45b9-4e06-a00a-3535b076f43b",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Right",
-                    "id": "1489bb85-a9d7-4d6e-801f-1521117653af",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "Right Stick",
                     "id": "5470aa7b-56ce-4030-abb3-5ca295645276",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=5,y=5)",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": true,
@@ -264,6 +209,17 @@
                 },
                 {
                     "name": "",
+                    "id": "339a53a3-fa10-4227-b7d5-29b1a3bcd0c0",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7c48cecc-4b49-43ba-b77c-9bebb7aa516b",
                     "path": "<Mouse>/delta",
                     "interactions": "",
@@ -298,6 +254,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RB",
+                    "type": "Button",
+                    "id": "ab4eae65-1b14-430c-b0ca-120351105977",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "PassThrough",
                     "id": "e119d5dc-0b42-446b-a5da-ace5f255fa43",
@@ -321,8 +286,30 @@
                 },
                 {
                     "name": "",
+                    "id": "a0a3907b-14d2-4be9-bbe7-ae56f08e783b",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a806b807-cc1d-446d-b682-68b917bbd7d9",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e23be871-695c-42af-b964-6b29544164d3",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -344,11 +331,33 @@
                 {
                     "name": "",
                     "id": "eca7012a-778b-48d6-a123-eb43e4ea227a",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dcd1a838-ff4c-4def-9726-85abad66adf6",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2f1f67e-6f96-4f1c-9390-a187fb7484e8",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -388,6 +397,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Test",
+            "id": "40c6fdbe-7f08-4ba1-95fb-7e53c81cc157",
+            "actions": [
+                {
+                    "name": "LeftTrigger",
+                    "type": "Button",
+                    "id": "69e8a671-0bf5-49ea-bbe6-60785367f500",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightTrigger",
+                    "type": "Button",
+                    "id": "7eac1222-cc93-4d33-9903-9cde1d89a36e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5505c14d-ecef-417e-9d5f-3353362fcbaa",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "831d1b3c-9cab-478f-b45c-a1ddc03c1819",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightTrigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

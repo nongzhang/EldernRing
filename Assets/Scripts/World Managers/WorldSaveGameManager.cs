@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SG
+namespace NZ
 {
     public class WorldSaveGameManager : MonoBehaviour
     {

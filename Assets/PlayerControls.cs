@@ -175,66 +175,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""Mouse"",
-                    ""id"": ""55b30bbf-b312-418b-ac32-a28b8351a3e8"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Up"",
-                    ""id"": ""6cec29cb-b4a1-41a9-9897-005562cfa470"",
-                    ""path"": ""<Mouse>/delta/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Down"",
-                    ""id"": ""7d58e364-c93e-4606-90fd-7719ae61964e"",
-                    ""path"": ""<Mouse>/delta/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Left"",
-                    ""id"": ""eb173a91-45b9-4e06-a00a-3535b076f43b"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Right"",
-                    ""id"": ""1489bb85-a9d7-4d6e-801f-1521117653af"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""Right Stick"",
                     ""id"": ""5470aa7b-56ce-4030-abb3-5ca295645276"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=5,y=5)"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,
@@ -286,6 +231,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""339a53a3-fa10-4227-b7d5-29b1a3bcd0c0"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7c48cecc-4b49-43ba-b77c-9bebb7aa516b"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
@@ -320,6 +276,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""RB"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab4eae65-1b14-430c-b0ca-120351105977"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Sprint"",
                     ""type"": ""PassThrough"",
                     ""id"": ""e119d5dc-0b42-446b-a5da-ace5f255fa43"",
@@ -343,8 +308,30 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a0a3907b-14d2-4be9-bbe7-ae56f08e783b"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a806b807-cc1d-446d-b682-68b917bbd7d9"",
                     ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e23be871-695c-42af-b964-6b29544164d3"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -366,11 +353,33 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""eca7012a-778b-48d6-a123-eb43e4ea227a"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcd1a838-ff4c-4def-9726-85abad66adf6"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2f1f67e-6f96-4f1c-9390-a187fb7484e8"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -414,6 +423,54 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Test"",
+            ""id"": ""40c6fdbe-7f08-4ba1-95fb-7e53c81cc157"",
+            ""actions"": [
+                {
+                    ""name"": ""LeftTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""69e8a671-0bf5-49ea-bbe6-60785367f500"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""7eac1222-cc93-4d33-9903-9cde1d89a36e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5505c14d-ecef-417e-9d5f-3353362fcbaa"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""831d1b3c-9cab-478f-b45c-a1ddc03c1819"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -429,10 +486,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_Dodge = m_PlayerActions.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_X = m_UI.FindAction("X", throwIfNotFound: true);
+        // Test
+        m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+        m_Test_LeftTrigger = m_Test.FindAction("LeftTrigger", throwIfNotFound: true);
+        m_Test_RightTrigger = m_Test.FindAction("RightTrigger", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -568,6 +630,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
     private readonly InputAction m_PlayerActions_Dodge;
     private readonly InputAction m_PlayerActions_Jump;
+    private readonly InputAction m_PlayerActions_RB;
     private readonly InputAction m_PlayerActions_Sprint;
     public struct PlayerActionsActions
     {
@@ -575,6 +638,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Dodge => m_Wrapper.m_PlayerActions_Dodge;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
+        public InputAction @RB => m_Wrapper.m_PlayerActions_RB;
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
@@ -591,6 +655,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJump;
+                @RB.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRB;
+                @RB.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRB;
+                @RB.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRB;
                 @Sprint.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSprint;
@@ -604,6 +671,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @RB.started += instance.OnRB;
+                @RB.performed += instance.OnRB;
+                @RB.canceled += instance.OnRB;
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
@@ -644,6 +714,47 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Test
+    private readonly InputActionMap m_Test;
+    private ITestActions m_TestActionsCallbackInterface;
+    private readonly InputAction m_Test_LeftTrigger;
+    private readonly InputAction m_Test_RightTrigger;
+    public struct TestActions
+    {
+        private @PlayerControls m_Wrapper;
+        public TestActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LeftTrigger => m_Wrapper.m_Test_LeftTrigger;
+        public InputAction @RightTrigger => m_Wrapper.m_Test_RightTrigger;
+        public InputActionMap Get() { return m_Wrapper.m_Test; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+        public void SetCallbacks(ITestActions instance)
+        {
+            if (m_Wrapper.m_TestActionsCallbackInterface != null)
+            {
+                @LeftTrigger.started -= m_Wrapper.m_TestActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.performed -= m_Wrapper.m_TestActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.canceled -= m_Wrapper.m_TestActionsCallbackInterface.OnLeftTrigger;
+                @RightTrigger.started -= m_Wrapper.m_TestActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.performed -= m_Wrapper.m_TestActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.canceled -= m_Wrapper.m_TestActionsCallbackInterface.OnRightTrigger;
+            }
+            m_Wrapper.m_TestActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @LeftTrigger.started += instance.OnLeftTrigger;
+                @LeftTrigger.performed += instance.OnLeftTrigger;
+                @LeftTrigger.canceled += instance.OnLeftTrigger;
+                @RightTrigger.started += instance.OnRightTrigger;
+                @RightTrigger.performed += instance.OnRightTrigger;
+                @RightTrigger.canceled += instance.OnRightTrigger;
+            }
+        }
+    }
+    public TestActions @Test => new TestActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -657,10 +768,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnDodge(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnRB(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
         void OnX(InputAction.CallbackContext context);
+    }
+    public interface ITestActions
+    {
+        void OnLeftTrigger(InputAction.CallbackContext context);
+        void OnRightTrigger(InputAction.CallbackContext context);
     }
 }

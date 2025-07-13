@@ -1875,6 +1875,7 @@ GameObject:
   - component: {fileID: -2954801915486931808}
   - component: {fileID: 2707608882823607388}
   - component: {fileID: -2392156107408308924}
+  - component: {fileID: 8426757499090268779}
   - component: {fileID: 1995096427422564908}
   - component: {fileID: -5743808709478221308}
   - component: {fileID: 4782559585517730272}
@@ -1972,6 +1973,8 @@ MonoBehaviour:
     m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
+  isJumping:
+    m_InternalValue: 0
   currentHealth:
     m_InternalValue: 0
   maxHealth:
@@ -2053,9 +2056,15 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+  currentWeaponBeingUsed:
+    m_InternalValue: 0
   currentRightHandWeaponID:
     m_InternalValue: 0
   currentLeftHandWeaponID:
+    m_InternalValue: 0
+  isUsingRightHand:
+    m_InternalValue: 0
+  isUsingLeftHand:
     m_InternalValue: 0
 --- !u!114 &-2392156107408308924
 MonoBehaviour:
@@ -2078,7 +2087,6 @@ MonoBehaviour:
   characterAnimatorManager: {fileID: 0}
   isPerformingAction: 0
   applyRootMotion: 0
-  isJumping: 0
   isGrounded: 0
   canRotate: 1
   canMove: 1
@@ -2090,6 +2098,20 @@ MonoBehaviour:
   playerStatsManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
+  playerCombatManager: {fileID: 0}
+--- !u!114 &8426757499090268779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609010990445434286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3956eb8aa1451e541844cc977d4fe092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeaponBeingUsed: {fileID: 0}
 --- !u!114 &1995096427422564908
 MonoBehaviour:
   m_ObjectHideFlags: 0

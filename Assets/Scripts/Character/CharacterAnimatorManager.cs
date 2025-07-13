@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-namespace SG
+namespace NZ
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {
@@ -108,6 +108,26 @@ namespace SG
 
             //告诉服务器/主机,我们播放了一个动画，然后也让所有其他玩家看到我们正在播放这个动画。
             characterManager.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+        }
+
+        public virtual void PlayTargetAttackActionAnimation(AttackType attackType,
+            string targetAnimation, bool isPerformingAction, bool applyRootMotion = true,
+            bool canRotate = false, bool canMove = false)
+        {
+            //记录上一次执行的攻击动作（用于连招）
+            //记录当前的攻击类型（轻攻击、重攻击等）
+            //根据当前武器更新动画集
+            //判断这次攻击是否可以被招架
+            //通知网络：“正在攻击”状态被激活（用于计算反击伤害等）
+            characterManager.characterCombatManager.currentAttackType = attackType;
+            characterManager.applyRootMotion = applyRootMotion;
+            characterManager.animator.CrossFade(targetAnimation, 0.2f);
+            characterManager.isPerformingAction = isPerformingAction;
+            characterManager.canRotate = canRotate;
+            characterManager.canMove = canMove;
+
+            //告诉服务器/主机,我们播放了一个动画，然后也让所有其他玩家看到我们正在播放这个动画。
+            characterManager.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
         }
     }
 }

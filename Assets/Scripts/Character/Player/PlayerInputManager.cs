@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-namespace SG
+namespace NZ
 {
     public class PlayerInputManager : MonoBehaviour
     {
@@ -26,6 +26,7 @@ namespace SG
         [SerializeField] bool dodgeInput = false;
         [SerializeField] bool sprintInput = false;
         [SerializeField] bool jumpInput = false;
+        [SerializeField] bool RB_Input = false;           //手柄右肩键，鼠标右键
 
         private void Awake()
         {
@@ -38,6 +39,16 @@ namespace SG
                 Destroy(gameObject);
             }
             //SceneManager.activeSceneChanged += OnSceneChange;   
+        }
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+            SceneManager.activeSceneChanged += OnSceneChange;    //将这个事件放在Start里面是因为，刚进入游戏时，在菜单界面，我并不想让Input生效，只有到世界场景中时，才让输入控制生效
+            instance.enabled = false;
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
         }
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
@@ -54,6 +65,10 @@ namespace SG
             else
             {
                 instance.enabled = false;
+                if (playerControls != null)
+                {
+                    playerControls.Disable();
+                }
             }
         }
 
@@ -64,9 +79,11 @@ namespace SG
                 playerControls = new PlayerControls();
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();   //Lambda表达式
                                                                                                                    //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
-                playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
+                //playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+                playerControls.PlayerActions.RB.performed += i => RB_Input = true;
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -82,16 +99,7 @@ namespace SG
         //    movementInput = context.ReadValue<Vector2>();
         //}
 
-        private void Start()
-        {
-            DontDestroyOnLoad(gameObject);
-            SceneManager.activeSceneChanged += OnSceneChange;    //将这个事件放在Start里面是因为，刚进入游戏时，在菜单界面，我并不想让Input生效，只有到世界场景中时，才让输入控制生效
-            instance.enabled = false;
-            if (playerControls != null)
-            {
-                playerControls.Disable();
-            }
-        }
+        
 
         //private void OnDisable()
         //{
@@ -130,6 +138,7 @@ namespace SG
             HandleDodgeInput();
             HandleSprintInput();
             HandleJumpInput();
+            HandRBInput();
         }
 
         private void HandlePlayerMovementInput()
@@ -189,6 +198,18 @@ namespace SG
                 //如果UI菜单打开，那么什么不要做，直接返回。当你使用手柄映射 SouthButton Gamepad同时控制跳跃和菜单操作时，Xbox是A,PS是X
 
                 playerManager.playerLocomotionManager.AttemptToPerformJump();
+            }
+        }
+
+        private void HandRBInput()
+        {
+            if (RB_Input)
+            {
+                RB_Input = false;
+
+                playerManager.playerNetworkManager.SetCharacterActionHand(true);
+
+                playerManager.playerCombatManager.PerformWeaponBasedAction(playerManager.playerInventoryManager.currentRightHandWeapon.oneHandRB_Action, playerManager.playerInventoryManager.currentRightHandWeapon);
             }
         }
 

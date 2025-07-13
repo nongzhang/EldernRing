@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-namespace SG
+namespace NZ
 {
     public class PlayerUIManager : MonoBehaviour
     {

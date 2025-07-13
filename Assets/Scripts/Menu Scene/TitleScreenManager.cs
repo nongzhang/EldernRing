@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 
-namespace SG
+namespace NZ
 {
     public class TitleScreenManager : MonoBehaviour
     {

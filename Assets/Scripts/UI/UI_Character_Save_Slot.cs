@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace SG
+namespace NZ
 {
     public class UI_Character_Save_Slot : MonoBehaviour
     {

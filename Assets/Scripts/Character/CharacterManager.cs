@@ -4,7 +4,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace SG
+namespace NZ
 {
     public class CharacterManager : NetworkBehaviour
     {
@@ -15,6 +15,7 @@ namespace SG
         [HideInInspector]public CharacterNetworkManager characterNetworkManager;
         [HideInInspector]public CharacterEffectManager characterEffectManager;
         [HideInInspector]public CharacterAnimatorManager characterAnimatorManager;
+        [HideInInspector]public CharacterCombatManager characterCombatManager;
 
         [Header("Flag")]
         public bool isPerformingAction = false;
@@ -34,6 +35,7 @@ namespace SG
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
             characterEffectManager = GetComponent<CharacterEffectManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            characterCombatManager = GetComponent<CharacterCombatManager>();
         }
 
         protected virtual void Start()

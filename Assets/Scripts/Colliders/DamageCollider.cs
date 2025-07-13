@@ -1,4 +1,4 @@
-using SG;
+using NZ;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +8,7 @@ namespace Sg
     public class DamageCollider : MonoBehaviour
     {
         [Header("Collider")]
-        protected Collider damageCollider;
+        [SerializeField]protected Collider damageCollider;
 
         [Header("Damage")]
         public float physicalDamage = 0;
@@ -18,12 +18,17 @@ namespace Sg
         public float holyDamage = 0;   //神圣伤害
 
         [Header("Contact Point")]
-        private Vector3 contactPoint;
+        public Vector3 contactPoint;
 
         [Header("Characters Damaged")]
         protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void Awake()
+        {
+
+        }
+
+        protected virtual void OnTriggerEnter(Collider other)
         {
             CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();  //角色各个关节的碰撞器比较多，所以一般会碰到这个，而CharacterManager脚本是挂载在父物体Player身上的
 

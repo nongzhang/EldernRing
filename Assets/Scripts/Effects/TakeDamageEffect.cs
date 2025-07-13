@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-namespace SG
+namespace NZ
 {
     [CreateAssetMenu(menuName = "Character Effects/Instant Effects/Take Damage")]
     public class TakeDamageEffect : InstantCharacterEffect
@@ -64,7 +65,7 @@ namespace SG
             {
                 finalDamageDealt = 1;
             }
-
+            Debug.Log(finalDamageDealt);
             character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
         }
     }

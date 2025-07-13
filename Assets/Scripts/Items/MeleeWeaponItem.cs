@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SG
+namespace NZ
 {
     [CreateAssetMenu(menuName = "Items/Weapons/Melee Weapon")]     //½üÕ½ÎäÆ÷
     public class MeleeWeaponItem : WeaponItem

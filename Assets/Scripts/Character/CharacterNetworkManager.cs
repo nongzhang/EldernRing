@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 
-namespace SG
+namespace NZ
 {
     public class CharacterNetworkManager : NetworkBehaviour
     {
@@ -55,7 +56,7 @@ namespace SG
             }
         }
 
-        //Server RPC是一个客户端调用发送给服务端的方法,这里的服务端是是主机（host）,一台客户端
+        //Server RPC 是一个从客户端调用、在服务器端（在我们这个项目中是“主机”）执行的函数。
         [ServerRpc]
         public void NotifyTheServerOfActionAnimationServerRpc(ulong clientID, string animationId, bool applyRootMotion)
         {
@@ -65,6 +66,7 @@ namespace SG
             }
         }
 
+        //Client RPC 是由服务器发送给所有客户端执行的函数。
         [ClientRpc]
         public void PlayActionAnimationForAllClientClientRpc(ulong clientID, string animationId, bool applyRootMotion)
         {
@@ -79,6 +81,98 @@ namespace SG
         {
             characterManager.applyRootMotion = applyRootMotion;
             characterManager.animator.CrossFade(animationID, 0.2f);
+        }
+
+        //Attack Animation 攻击动画
+
+        [ServerRpc]
+        public void NotifyTheServerOfAttackActionAnimationServerRpc(ulong clientID, string animationId, bool applyRootMotion)
+        {
+            if (IsServer)
+            {
+                PlayAttackActionAnimationForAllClientClientRpc(clientID, animationId, applyRootMotion);
+            }
+        }
+
+        [ClientRpc]
+        public void PlayAttackActionAnimationForAllClientClientRpc(ulong clientID, string animationId, bool applyRootMotion)
+        {
+            //确保发送消息的那个角色不会执行这个方法(因此避免播放动画两次)
+            if (clientID != NetworkManager.Singleton.LocalClientId)
+            {
+                PerformAttackActionAnimationFromServer(animationId, applyRootMotion);
+            }
+        }
+
+        private void PerformAttackActionAnimationFromServer(string animationID, bool applyRootMotion)
+        {
+            characterManager.applyRootMotion = applyRootMotion;
+            characterManager.animator.CrossFade(animationID, 0.2f);
+        }
+
+        //DAMAGE  伤害相关的处理
+        [ServerRpc(RequireOwnership = false)]
+        public void NotifyTheServerOfCharacterDamageServerRpc(
+            ulong damagedCharacterID,
+            ulong characterCausingDamageID,
+            float physicalDamage,
+            float magicDamage,
+            float fireDamage,
+            float holyDamage,
+            float poiseDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ)
+        {
+            NotifyTheServerOfCharacterDamageClientRpc(damagedCharacterID, characterCausingDamageID, physicalDamage, magicDamage, fireDamage, holyDamage, poiseDamage, angleHitFrom, contactPointX, contactPointY, contactPointZ);
+        }
+
+        [ClientRpc]
+        public void NotifyTheServerOfCharacterDamageClientRpc(
+            ulong damagedCharacterID,
+            ulong characterCausingDamageID,
+            float physicalDamage,
+            float magicDamage,
+            float fireDamage,
+            float holyDamage,
+            float poiseDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ)
+        {
+            ProcessCharacterDamageFromServer(damagedCharacterID, characterCausingDamageID, physicalDamage, magicDamage, fireDamage, holyDamage, poiseDamage, angleHitFrom, contactPointX, contactPointY, contactPointZ);
+        }
+
+        public void ProcessCharacterDamageFromServer(
+            ulong damagedCharacterID,
+            ulong characterCausingDamageID,
+            float physicalDamage,
+            float magicDamage,
+            float fireDamage,
+            float holyDamage,
+            float poiseDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ)
+        {
+            //获取场景中受到伤害的角色和造成伤害的角色
+            CharacterManager damagedCharacter = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
+            CharacterManager characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID].gameObject.GetComponent<CharacterManager>();
+            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
+
+            damageEffect.physicalDamage = physicalDamage;
+            damageEffect.magicDamage = magicDamage;
+            damageEffect.fireDamage = fireDamage;
+            damageEffect.holyDamage = holyDamage;
+            damageEffect.poiseDamage = poiseDamage;
+            damageEffect.angleHitFrom = angleHitFrom;
+            damageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
+            damageEffect.characterCausingDamage = characterCausingDamage;
+
+            damagedCharacter.characterEffectManager.ProcessInstantEffect(damageEffect);
         }
     }
 }

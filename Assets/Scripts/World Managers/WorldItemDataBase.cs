@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace SG
+namespace NZ
 {
     public class WorldItemDataBase : MonoBehaviour
     {

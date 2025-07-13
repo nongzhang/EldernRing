@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SG
+namespace NZ
 {
     public class WeaponItem : Item
     {
@@ -24,13 +24,18 @@ namespace SG
         public int holyDamage = 0;
         public int lightningDamage = 0;
 
-        [Header("Weapon Base Poise Damage")]  //武器的失衡值,可自己实现
+        [Header("Weapon Poise")]  //武器的失衡值,可自己实现
         public float poiseDamage = 10;
 
-        [Header("Stamina Costs")]          //武器攻击时消耗的耐力
+        [Header("Attack Modifiers")]  //很多武器连续攻击的第二次攻击比第一次伤害高，所以需要一个伤害修正器
+        public float light_Attack_01_Modifier = 1.1f;
+
+        [Header("Stamina Costs Modifiers")]          //武器攻击时消耗的耐力
         public int baseStaminaCost = 20;
+        public float lightAttackStaminaCostMultiplier = 0.9f;
 
-
+        [Header("Actions")]
+        public WeaponItemAction oneHandRB_Action;      //单手鼠标右键的动作
         //item based actions(比如鼠标左键是轻攻击，右键是重攻击，shift+左键是战技等)
 
         //Ash of War

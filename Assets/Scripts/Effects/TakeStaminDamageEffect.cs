@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SG
+namespace NZ
 {
     [CreateAssetMenu(menuName ="Character Effects/Instant Effects/Take Stamina Damage")]
     public class TakeStaminDamageEffect : InstantCharacterEffect

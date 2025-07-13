@@ -1,8 +1,8 @@
-using SG;
+using NZ;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace SG
+namespace NZ
 {
     public class PlayerEffectManager : CharacterEffectManager
     {

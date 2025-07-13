@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-namespace SG
+namespace NZ
 {
     public class PlayerManager : CharacterManager
     {
@@ -16,6 +16,7 @@ namespace SG
         [HideInInspector] public PlayerStatsManager playerStatsManager;
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
+        [HideInInspector] public PlayerCombatManager playerCombatManager;
         protected override void Awake()
         {
             base.Awake();
@@ -25,6 +26,7 @@ namespace SG
             playerStatsManager = GetComponent<PlayerStatsManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
         }
 
         protected override void Update()
@@ -74,6 +76,7 @@ namespace SG
             //装备
             playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+            playerNetworkManager.currentWeaponBeingUsed.OnValueChanged += playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
 
             //当连接成功时，如果我们是这个角色的拥有者（Owner），但不是服务器（Server），则需要将保存的角色数据加载到刚生成的角色对象中。如果我们是服务器，就不需要运行这段逻辑，因为服务器作为主机（Host）已经完成了加载，不需要重新加载数据。
             if (IsOwner && !IsServer)

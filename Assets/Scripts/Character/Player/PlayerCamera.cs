@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace SG
+namespace NZ
 {
     public class PlayerCamera : MonoBehaviour
     {

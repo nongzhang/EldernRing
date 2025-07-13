@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SG
+namespace NZ
 {
     public class CharacterLocomotionManager : MonoBehaviour
     {

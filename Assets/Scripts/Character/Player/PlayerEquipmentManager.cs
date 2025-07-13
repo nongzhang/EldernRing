@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SG
+namespace NZ
 {
     public class PlayerEquipmentManager : CharacterEquipmentManager
     {
@@ -146,5 +146,29 @@ namespace SG
             }
         }
 
+        //控制用于计算伤害的碰撞器的开启和关闭，在Animator Event上调用
+        public void OpenDamageCollider()
+        {
+            if (playerManager.playerNetworkManager.isUsingRightHand.Value)
+            {
+                rightWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+            }
+            else if (playerManager.playerNetworkManager.isUsingLeftHand.Value)
+            {
+                leftWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+            }
+        }
+
+        public void CloseDamageCollider()
+        {
+            if (playerManager.playerNetworkManager.isUsingRightHand.Value)
+            {
+                rightWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
+            }
+            else if (playerManager.playerNetworkManager.isUsingLeftHand.Value)
+            {
+                leftWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
+            }
+        }
     }
 }
