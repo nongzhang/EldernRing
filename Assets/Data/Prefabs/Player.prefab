@@ -74,7 +74,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658054296045447379}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.13
   m_Height: 0.44
@@ -326,7 +326,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018552780791166606}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.07
   m_Height: 0.29
@@ -437,7 +437,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3161773349784216263}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.07
   m_Height: 0.29
@@ -661,7 +661,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3709490635449763767}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.13
   m_Height: 0.35
@@ -1043,7 +1043,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4459076194962596944}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.07
   m_Height: 0.26
@@ -1669,7 +1669,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6322598863449622197}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.07
   m_Height: 0.26
@@ -1716,7 +1716,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6459587449253789105}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.09
   m_Height: 0
@@ -1794,7 +1794,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7309557700903071915}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.09
   m_Height: 0.38
@@ -2085,6 +2085,8 @@ MonoBehaviour:
   characterNetworkManager: {fileID: 0}
   characterEffectManager: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   isPerformingAction: 0
   applyRootMotion: 0
   isGrounded: 0
@@ -2111,6 +2113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3956eb8aa1451e541844cc977d4fe092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAttackType: 0
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!114 &1995096427422564908
 MonoBehaviour:
@@ -2194,6 +2197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba6d6cb13c16224d860b97b21223613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 11400000, guid: 9b20723c5a9d9824c8477f5c9d348ddc, type: 2}
   processEffect: 0
 --- !u!114 &3250520492708196763
@@ -2536,7 +2540,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8294939230031352390}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.13
   m_Height: 0.44
@@ -2788,7 +2792,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8808460013027431179}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.12
   m_Height: 0.33
@@ -2835,7 +2839,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8835010247099574804}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.09
   m_Height: 0.38

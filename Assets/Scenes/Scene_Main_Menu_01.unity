@@ -6372,6 +6372,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: World Sound FX Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 6954199608780648436, guid: eadffb5c26d3a784ca1f367b057c87ad,
+        type: 3}
+      propertyPath: physicalDamageSFX.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954199608780648436, guid: eadffb5c26d3a784ca1f367b057c87ad,
+        type: 3}
+      propertyPath: physicalDamageSFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7cbd6cd765888ff418d01d98bd1ce9c2, type: 3}
+    - target: {fileID: 6954199608780648436, guid: eadffb5c26d3a784ca1f367b057c87ad,
+        type: 3}
+      propertyPath: physicalDamageSFX.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3df9bbbc130ccb344af5f3fc793a630f, type: 3}
     - target: {fileID: 8340341077295314103, guid: eadffb5c26d3a784ca1f367b057c87ad,
         type: 3}
       propertyPath: m_RootOrder

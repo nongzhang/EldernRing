@@ -35,10 +35,11 @@ namespace NZ
 
             if (damageTarget != null)
             {
+                Debug.Log("A :" + other.gameObject.name);
                 if (damageTarget == characterCausingDamage)    //我们不会对自己造成伤害
                     return;
                 contactPoint = other.ClosestPointOnBounds(this.transform.position);    //最接近的点作为碰撞点
-
+                Debug.Log("B :" + other.gameObject.name);
                 DamageTarget(damageTarget);
             }
         }
