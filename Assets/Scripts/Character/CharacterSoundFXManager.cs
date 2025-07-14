@@ -13,9 +13,21 @@ namespace NZ
             audioSource = GetComponent<AudioSource>();
         }
 
+        public void PlaySoundFX(AudioClip soundFx, float volume = 1, bool randomizePitch = true, float pitchRandom = 0.1f)
+        {
+            audioSource.PlayOneShot(soundFx, volume);
+
+            audioSource.pitch = 1;
+
+            if (randomizePitch)
+            {
+                audioSource.pitch += Random.Range(-pitchRandom, pitchRandom);
+            }
+        }
+
         public void PlayRollSoundFX()
         {
-            audioSource.PlayOneShot(WorldSoundFXManager.Instance.rollSFX);
+            audioSource.PlayOneShot(WorldSoundFXManager.instance.rollSFX);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 namespace NZ
 {
     public class PlayerManager : CharacterManager
@@ -54,6 +55,7 @@ namespace NZ
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectCallback;
             if (IsOwner)
             {
                 PlayerCamera.instance.playerManager = this;
@@ -82,6 +84,23 @@ namespace NZ
             if (IsOwner && !IsServer)
             {
                 LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterSaveData);
+            }
+        }
+
+        private void OnClientConnectCallback(ulong clientID)
+        {
+            //为游戏中所有激活的玩家维持一个列表，连接到游戏就加入列表，断开连接就移除
+            WorldGameSessionManager.Instance.AddPlayerToActivePlayersList(this);
+            //如果你是主机，就不需要特意加载其他玩家的数据，因为你已经掌握全部状态。只有当你是后来加入某个正在进行的游戏时，才需要加载和同步其他人的装备数据。
+            if (!IsServer && IsOwner)
+            {
+                foreach (var player in WorldGameSessionManager.Instance.playerManagers)
+                {
+                    if (player != this)
+                    {
+                        player.LoadOtherPlayerCharacterWhenJoiningServer();
+                    }
+                }
             }
         }
 
@@ -137,6 +156,12 @@ namespace NZ
             playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(currentCharacterData.endurance);
             playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
             PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
+        }
+
+        public void LoadOtherPlayerCharacterWhenJoiningServer()
+        {
+            playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
+            playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
         }
 
         private void DebugMenu()

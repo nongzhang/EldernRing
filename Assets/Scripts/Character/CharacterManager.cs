@@ -16,6 +16,7 @@ namespace NZ
         [HideInInspector]public CharacterEffectManager characterEffectManager;
         [HideInInspector]public CharacterAnimatorManager characterAnimatorManager;
         [HideInInspector]public CharacterCombatManager characterCombatManager;
+        [HideInInspector]public CharacterSoundFXManager characterSoundFXManager;
 
         [Header("Flag")]
         public bool isPerformingAction = false;
@@ -36,6 +37,7 @@ namespace NZ
             characterEffectManager = GetComponent<CharacterEffectManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterCombatManager = GetComponent<CharacterCombatManager>();
+            characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
         }
 
         protected virtual void Start()

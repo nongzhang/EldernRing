@@ -11,6 +11,9 @@ namespace NZ
         [Header("Damage")]
         public TakeDamageEffect takeDamageEffect;
 
+        [Header("VFX")]
+        public GameObject bloodSplatterVFX;
+
         [SerializeField] List<InstantCharacterEffect> instantCharacterEffects;
 
         private void Awake()

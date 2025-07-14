@@ -48,6 +48,14 @@ namespace NZ
             if(characterManager.isDead.Value)
                 return;
             CalculateDamage(characterManager);
+
+            //检查伤害来自的方向
+            //播放伤害动画
+            //检查积累情况（位置，流血）
+            //播放伤害音效
+            PlayDamageSFX(characterManager);
+            //播放伤害特效
+            PlayDamageVFX(characterManager);
         }
 
         private void CalculateDamage(CharacterManager character)
@@ -67,6 +75,21 @@ namespace NZ
             }
             Debug.Log(finalDamageDealt);
             character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
+        }
+
+        private void PlayDamageVFX(CharacterManager character)
+        {
+            //如果我们有火焰伤害，播放火焰粒子特效
+            //如果有闪电伤害，播放闪电例子特效
+            character.characterEffectManager.PlayBloodSplatterVFX(contactPoint);
+        }
+
+        private void PlayDamageSFX(CharacterManager character)
+        {
+            AudioClip physicalDamageSFX = WorldSoundFXManager.instance.ChooseRandomSFXFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
+            character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
+            //如果火焰伤害大于零，播放燃烧音效
+            //如果闪电伤害大于零，播放滋滋声······
         }
     }
 }
