@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sg
+namespace NZ
 {
     public class DamageCollider : MonoBehaviour
     {
         [Header("Collider")]
         [SerializeField]protected Collider damageCollider;
+        public Vector3 boxHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
 
         [Header("Damage")]
         public float physicalDamage = 0;
@@ -62,13 +63,17 @@ namespace Sg
 
         public virtual void EnableDamageCollider()
         {
+            //Debug.Log("Damage Collider Enabled");
             damageCollider.enabled = true;
         }
 
         public virtual void DisableDamageCollider()
         {
+            //Debug.Log("Collider disabled");
             damageCollider.enabled = false;
+            //Debug.Log("Clearing charactersDamaged list, count before: " + charactersDamaged.Count);
             charactersDamaged.Clear();  //这样，在下一次攻击中，我们又可以对角色造成伤害
+            
         }
     }
 }

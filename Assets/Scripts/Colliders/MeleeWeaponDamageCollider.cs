@@ -1,7 +1,8 @@
-using Sg;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace NZ
 {
@@ -27,6 +28,7 @@ namespace NZ
 
         protected override void OnTriggerEnter(Collider other)
         {
+            //Debug.Log("A :" + other.gameObject.name);
             if (characterCausingDamage == null)
             {
                 characterCausingDamage = GetComponentInParent<CharacterManager>();
@@ -35,11 +37,11 @@ namespace NZ
 
             if (damageTarget != null)
             {
-                Debug.Log("A :" + other.gameObject.name);
+                //Debug.Log("B :" + other.gameObject.name);
                 if (damageTarget == characterCausingDamage)    //我们不会对自己造成伤害
                     return;
                 contactPoint = other.ClosestPointOnBounds(this.transform.position);    //最接近的点作为碰撞点
-                Debug.Log("B :" + other.gameObject.name);
+                //Debug.Log("C :" + other.gameObject.name);
                 DamageTarget(damageTarget);
             }
         }
@@ -60,6 +62,7 @@ namespace NZ
             damageEffect.lightDamage = lightDamage;
             damageEffect.holyDamage = holyDamage;
             damageEffect.contactPoint = contactPoint;
+            damageEffect.angleHitFrom = Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up);
 
             switch (characterCausingDamage.characterCombatManager.currentAttackType)
             {
@@ -71,7 +74,7 @@ namespace NZ
             }
 
             //damageTarget.characterEffectManager.ProcessInstantEffect(damageEffect);
-            if (characterCausingDamage.IsOwner)
+            if (characterCausingDamage.IsOwner)      //characterCausingDamage.IsOwner
             {
                 damageTarget.characterNetworkManager.NotifyTheServerOfCharacterDamageServerRpc(damageTarget.NetworkObjectId,
                     characterCausingDamage.NetworkObjectId,
