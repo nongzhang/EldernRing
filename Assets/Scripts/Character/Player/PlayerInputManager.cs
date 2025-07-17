@@ -16,6 +16,9 @@ namespace NZ
         public float cameraHorizontalInput;
         public float cameraVerticalInput;
 
+        [Header("LOCK ON INPUT")]
+        [SerializeField] bool lockOnInput;
+
         [Header("PLAYER MOVEMENT INPUT")]
         [SerializeField] Vector2 movementInput;
         public float horizontalInput;
@@ -84,6 +87,8 @@ namespace NZ
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
                 playerControls.PlayerActions.RB.performed += i => RB_Input = true;
+                playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
+
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -133,12 +138,46 @@ namespace NZ
 
         private void HandleAllInput()
         {
+            HandleLockOnInput();
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
             HandleSprintInput();
             HandleJumpInput();
             HandRBInput();
+        }
+
+        private void HandleLockOnInput()
+        {
+            //目标是否已经死亡
+            if (playerManager.playerNetworkManager.isLockOn.Value)
+            {
+                if (playerManager.playerCombatManager.currentTarget == null)
+                {
+                    return;
+                }
+                if (playerManager.playerCombatManager.currentTarget.isDead.Value)
+                {
+                    playerManager.playerNetworkManager.isLockOn.Value = false;
+                }
+
+                //尝试寻找新的目标
+            }
+
+            //如果在锁定状态下我们再按锁定键就是解锁
+            if (lockOnInput && playerManager.playerNetworkManager.isLockOn.Value)
+            {
+                lockOnInput = false;
+                //我们是否有目标
+                return;
+            }
+
+            if (lockOnInput && !playerManager.playerNetworkManager.isLockOn.Value)
+            {
+                lockOnInput = false;
+
+                PlayerCamera.instance.HandleLocatingLocalTargets();
+            }
         }
 
         private void HandlePlayerMovementInput()

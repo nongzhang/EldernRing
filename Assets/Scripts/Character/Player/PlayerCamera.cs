@@ -29,6 +29,13 @@ namespace NZ
         [SerializeField] float upAndDownLookAngle;
         private float cameraZPosition;                      //计算相机碰撞需要的值
         private float targetCameraZPosition;                     //计算相机碰撞需要的值
+
+        [Header("Lock On")]
+        [SerializeField] private float lockOnRadius = 20;
+        [SerializeField] private float minimumViewableAngle = -50;
+        [SerializeField] private float maximumViewableAngle = 50;
+        [SerializeField] private float maximumLockOnDistance = 20;      //需在实际游戏场景中测试
+
         private void Awake()
         {
             if (instance == null)
@@ -108,6 +115,52 @@ namespace NZ
 
                 cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, targetCameraZPosition, 0.2f);
                 cameraObject.transform.localPosition = cameraObjectPosition;
+            }
+        }
+
+        public void HandleLocatingLocalTargets()
+        {
+            float shortestDistance = Mathf.Infinity;
+            float shorestDistanceOfRightTarget = Mathf.Infinity;
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
+
+            Collider[] colliders = Physics.OverlapSphere(playerManager.transform.position, lockOnRadius, WorldUtilityManager.Instance.GetCharacterLayers());
+
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                CharacterManager lockOnTarget = colliders[i].GetComponent<CharacterManager>();
+
+                if (lockOnTarget != null)
+                {
+                    Vector3 lockOnTargetDirection = lockOnTarget.transform.position - playerManager.transform.position;
+                    float distanceFromTarget = lockOnTargetDirection.x * lockOnTargetDirection.x +lockOnTargetDirection.y * lockOnTargetDirection.y + lockOnTargetDirection.z * lockOnTargetDirection.z;
+                    float viewableAngle = Vector3.Angle(lockOnTargetDirection, cameraObject.transform.forward);
+
+                    if (lockOnTarget.isDead.Value)
+                        continue;
+                    //把自身当作目标，跳过
+                    if (lockOnTarget.transform.root == playerManager.transform.root)
+                        continue;
+                    //如果目标超过最大锁定距离，跳过，检查下一个潜在目标
+                    if (distanceFromTarget > maximumLockOnDistance * maximumLockOnDistance)
+                        continue;
+
+                    //添加层蒙版，只对环境生效
+                    if (viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
+                    {
+                        RaycastHit hit;
+
+                        if (Physics.Linecast(playerManager.playerCombatManager.LockOnTransform.position, 
+                            lockOnTarget.characterCombatManager.LockOnTransform.position, out hit,WorldUtilityManager.Instance.GetEnviroLayers()))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            Debug.Log("We made it");
+                        }
+                    }
+                }
             }
         }
     }

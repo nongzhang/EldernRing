@@ -15,7 +15,7 @@ namespace NZ
         public string lastDamageAnimationPlayed;
 
         [Header("Damage Animations")]
-        [SerializeField] string hit_Forward_Medium_01 = "hit_Forward_Medium_01";
+        [SerializeField] string hit_Forward_Medium_01 = "hit_Forward_Medium_01";  //多种受击动画随机播放
         [SerializeField] string hit_Forward_Medium_02 = "hit_Forward_Medium_02";
 
         [SerializeField] string hit_Backward_Medium_01 = "hit_Backward_Medium_01";
