@@ -19,6 +19,7 @@ namespace NZ
             characterManager.applyRootMotion = false;
             characterManager.canRotate = true;
             characterManager.canMove = true;
+            characterManager.characterLocomotionManager.isRolling = false;
 
             if (characterManager.IsOwner)
             {

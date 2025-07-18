@@ -172,6 +172,9 @@ MonoBehaviour:
   cameraHorizontalInput: 0
   cameraVerticalInput: 0
   lockOnInput: 0
+  lockOn_LeftInput: 0
+  lockOn_RightInput: 0
+  lockOn_MouseInput: {x: 0, y: 0}
   movementInput: {x: 0, y: 0}
   horizontalInput: 0
   verticalInput: 0

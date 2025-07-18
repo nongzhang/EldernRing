@@ -158,7 +158,7 @@ CapsuleCollider:
   m_Radius: 0.05
   m_Height: 0.29
   m_Direction: 0
-  m_Center: {x: -0.03, y: 0.03, z: 0}
+  m_Center: {x: 0.03, y: 0.03, z: 0}
 --- !u!1 &1146963946347880452
 GameObject:
   m_ObjectHideFlags: 0
@@ -2002,6 +2002,8 @@ MonoBehaviour:
   veryicalMovement:
     m_InternalValue: 0
   moveAmount:
+    m_InternalValue: 0
+  currentTargetNetworkObjectID:
     m_InternalValue: 0
   isLockOn:
     m_InternalValue: 0

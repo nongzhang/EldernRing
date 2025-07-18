@@ -18,6 +18,11 @@ namespace NZ
 
         [Header("LOCK ON INPUT")]
         [SerializeField] bool lockOnInput;
+        [SerializeField] bool lockOn_LeftInput;
+        [SerializeField] bool lockOn_RightInput;
+        [SerializeField] Vector2 lockOn_MouseInput;
+        private Coroutine lockOnCoroutine;
+
 
         [Header("PLAYER MOVEMENT INPUT")]
         [SerializeField] Vector2 movementInput;
@@ -87,8 +92,12 @@ namespace NZ
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
                 playerControls.PlayerActions.RB.performed += i => RB_Input = true;
-                playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
 
+                //Lock on
+                playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
+                playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOn_LeftInput = true;
+                playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOn_RightInput = true;
+                playerControls.PlayerActions.SeekLockTargetByMouse.performed += i => lockOn_MouseInput = i.ReadValue<Vector2>();
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -139,6 +148,7 @@ namespace NZ
         private void HandleAllInput()
         {
             HandleLockOnInput();
+            HandleLockOnSwitchTargetInput();
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
@@ -162,13 +172,18 @@ namespace NZ
                 }
 
                 //尝试寻找新的目标
+                //确保在同一时刻不会运行多个协程
+                if (lockOnCoroutine != null)
+                    StopCoroutine(lockOnCoroutine);
+                lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
             }
 
             //如果在锁定状态下我们再按锁定键就是解锁
             if (lockOnInput && playerManager.playerNetworkManager.isLockOn.Value)
             {
                 lockOnInput = false;
-                //我们是否有目标
+                PlayerCamera.instance.ClearLockOnTargets();
+                playerManager.playerNetworkManager.isLockOn.Value = false;
                 return;
             }
 
@@ -177,6 +192,42 @@ namespace NZ
                 lockOnInput = false;
 
                 PlayerCamera.instance.HandleLocatingLocalTargets();
+                if (PlayerCamera.instance.NearestLockOnTarget != null)
+                {
+                    playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.NearestLockOnTarget);
+                    playerManager.playerNetworkManager.isLockOn.Value = true;
+                }
+            }
+        }
+
+        private void HandleLockOnSwitchTargetInput()
+        {
+            if (lockOn_LeftInput || lockOn_MouseInput.x < 0)
+            {
+                lockOn_LeftInput = false;
+                if (playerManager.playerNetworkManager.isLockOn.Value)
+                {
+                    PlayerCamera.instance.HandleLocatingLocalTargets();
+
+                    if (PlayerCamera.instance.LeftLockOnTarget != null)
+                    {
+                        playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.LeftLockOnTarget);
+                    }
+                }
+            }
+
+            if (lockOn_RightInput || lockOn_MouseInput.x > 0)
+            {
+                lockOn_RightInput = false;
+                if (playerManager.playerNetworkManager.isLockOn.Value)
+                {
+                    PlayerCamera.instance.HandleLocatingLocalTargets();
+
+                    if (PlayerCamera.instance.RightLockOnTarget != null)
+                    {
+                        playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.RightLockOnTarget);
+                    }
+                }
             }
         }
 
@@ -198,7 +249,16 @@ namespace NZ
             {
                 return;
             }
-            playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, playerManager.playerNetworkManager.isSprinting.Value);
+
+            if (!playerManager.playerNetworkManager.isLockOn.Value || playerManager.playerNetworkManager.isSprinting.Value)
+            {
+                playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, playerManager.playerNetworkManager.isSprinting.Value);
+            }
+            else
+            {
+                playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput, playerManager.playerNetworkManager.isSprinting.Value);
+            }
+            
         }
 
         private void HandleCameraMovementInput()

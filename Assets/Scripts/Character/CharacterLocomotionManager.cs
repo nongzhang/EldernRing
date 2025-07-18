@@ -21,6 +21,10 @@ namespace NZ
         protected bool fallingVelocityHasBeenSet = false;
         [SerializeField] protected float inAirTime = 0;
 
+
+        [Header("Flags")]
+        public bool isRolling = false;
+
         protected virtual void Awake()
         {
             characterManager = GetComponent<CharacterManager>();

@@ -54,7 +54,16 @@ namespace NZ
                 horizontalMovement = playerManager.characterNetworkManager.horizontalMovement.Value;
                 moveAmount = playerManager.characterNetworkManager.moveAmount.Value;
 
-                playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, playerManager.playerNetworkManager.isSprinting.Value);  //未锁定时，水平方向移动值为0
+                if (!playerManager.playerNetworkManager.isLockOn.Value || playerManager.playerNetworkManager.isSprinting.Value)
+                {
+                    //如果没有锁定目标，就传递移动量，水平方向移动值为0
+                    playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, playerManager.playerNetworkManager.isSprinting.Value);
+                }
+                else
+                {
+                    //如果已锁定目标，就传递水平（horz）和垂直（vert）输入
+                    playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalMovement, verticalMovement, playerManager.playerNetworkManager.isSprinting.Value);
+                }
             }
         }
 
@@ -130,22 +139,64 @@ namespace NZ
 
         private void HandleRotation()
         {
+            if (playerManager.isDead.Value)
+                return;
             if (!playerManager.canRotate)
-            {  return; }
-            targetRotationDirection = Vector3.zero;
-            targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
-            targetRotationDirection = targetRotationDirection + PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
-            targetRotationDirection.Normalize();
-            targetRotationDirection.y = 0;
+                return; 
 
-            if(targetRotationDirection == Vector3.zero)
+            if (playerManager.playerNetworkManager.isLockOn.Value)
             {
-                targetRotationDirection = transform.forward;
-            }
+                //使用冲刺会打断锁定状态
+                if (playerManager.playerNetworkManager.isSprinting.Value)  
+                {
+                    Vector3 targetDirection = Vector3.zero;
+                    targetDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
+                    targetDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
+                    targetDirection.Normalize();
+                    targetDirection.y = 0;
 
-            Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
-            transform.rotation = targetRotation;
+                    if (targetDirection == Vector3.zero)
+                        targetDirection = transform.forward;
+
+                    Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                    Quaternion finalRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    transform.rotation = finalRotation;
+                }
+                else
+                {
+                    if (playerManager.playerCombatManager.currentTarget == null)
+                    {
+                        return;
+                    }
+
+                    Vector3 targetDirection;
+                    targetDirection = playerManager.playerCombatManager.currentTarget.transform.position - transform.position;
+                    targetDirection.Normalize();
+                    targetDirection.y = 0;
+
+                    Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                    Quaternion finalRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    transform.rotation = finalRotation;
+                }
+            }
+            else
+            {
+                targetRotationDirection = Vector3.zero;
+                targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
+                targetRotationDirection = targetRotationDirection + PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
+                targetRotationDirection.Normalize();
+                targetRotationDirection.y = 0;
+
+                if (targetRotationDirection == Vector3.zero)
+                {
+                    targetRotationDirection = transform.forward;
+                }
+
+                Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+                transform.rotation = targetRotation;
+            }
+            
         }
 
         public void HandleSprinting()
@@ -199,6 +250,7 @@ namespace NZ
                 playerManager.transform.rotation = playerRotation;
 
                 playerManager.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward_01", true, true);
+                playerManager.playerLocomotionManager.isRolling = true;
             }
             else
             {

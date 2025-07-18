@@ -34,7 +34,21 @@ namespace NZ
         [SerializeField] private float lockOnRadius = 20;
         [SerializeField] private float minimumViewableAngle = -50;
         [SerializeField] private float maximumViewableAngle = 50;
-        [SerializeField] private float maximumLockOnDistance = 20;      //需在实际游戏场景中测试
+        [SerializeField] float lockOnTargetFollowSpeed = 0.2f;
+        [SerializeField] float setCameraHeightSpeed = 1;
+        [SerializeField] float unlockedCameraHeight = 0.6f;        //1.65f?
+        [SerializeField] float lockedCameraHeight = 0.95f;          //2.0f?
+        //[SerializeField] private float maximumLockOnDistance = 20;      //需在实际游戏场景中测试
+        private Coroutine cameraLockOnHeightCoroutine;
+        private List<CharacterManager> availableTargets = new List<CharacterManager>();
+        private CharacterManager nearestLockOnTarget;
+        private CharacterManager leftLockOnTarget;
+        private CharacterManager rightLockOnTarget;
+        
+
+        public CharacterManager NearestLockOnTarget { get => nearestLockOnTarget; set => nearestLockOnTarget = value; }
+        public CharacterManager LeftLockOnTarget { get => leftLockOnTarget; set => leftLockOnTarget = value; }
+        public CharacterManager RightLockOnTarget { get => rightLockOnTarget; set => rightLockOnTarget = value; }
 
         private void Awake()
         {
@@ -71,30 +85,53 @@ namespace NZ
         private void HandleRotation()
         {
             //当我们锁定时，强制相机围绕着目标旋转
-            //否则围绕玩家旋转
+            if (playerManager.playerNetworkManager.isLockOn.Value)
+            {
+                //旋转当前这个GameObjec，水平左右旋转
+                Vector3 rotationDirection = playerManager.playerCombatManager.currentTarget.characterCombatManager.LockOnTransform.position - transform.position;  //从相机指向目标点的向量
+                rotationDirection.Normalize();
+                rotationDirection.y = 0;
 
+                Quaternion targetRotation = Quaternion.LookRotation(rotationDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lockOnTargetFollowSpeed);
 
-            //普通旋转
-            //鼠标左右移动控制相机水平移动
-            leftAndRightLookAngle += PlayerInputManager.instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
+                //竖直方向上旋转
+                rotationDirection = playerManager.playerCombatManager.currentTarget.characterCombatManager.LockOnTransform.position - cameraPivotTransform.position;
+                rotationDirection.Normalize();
 
-            //鼠标上下移动控制相机竖直移动
-            upAndDownLookAngle -= PlayerInputManager.instance.cameraVerticalInput *upAndDownRotationSpeed * Time.deltaTime;
-            upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
+                targetRotation = Quaternion.LookRotation(rotationDirection);
+                cameraPivotTransform.rotation = Quaternion.Slerp(cameraPivotTransform.rotation, targetRotation, lockOnTargetFollowSpeed);
 
-            Vector3 cameraRotation = Vector3.zero;
-            Quaternion targetRotation;
+                //将当前的旋转值保存到我们用于计算视角的变量中，以防止解锁目标后视角突然跳动
+                leftAndRightLookAngle = transform.eulerAngles.y;
+                upAndDownLookAngle = transform.eulerAngles.x;
+            }
+            //否则围绕玩家自身旋转
+            else
+            {
+                //普通旋转
+                //鼠标左右移动控制相机水平移动
+                leftAndRightLookAngle += PlayerInputManager.instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
 
-            //旋转 player camera left&right
-            cameraRotation.y = leftAndRightLookAngle;
-            targetRotation = Quaternion.Euler(cameraRotation);
-            transform.rotation = targetRotation;
+                //鼠标上下移动控制相机竖直移动
+                upAndDownLookAngle -= PlayerInputManager.instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
+                upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
 
-            //旋转 camera pivot up&down
-            cameraRotation = Vector3.zero;
-            cameraRotation.x = upAndDownLookAngle;
-            targetRotation = Quaternion.Euler(cameraRotation);
-            cameraPivotTransform.localRotation = targetRotation;
+                Vector3 cameraRotation = Vector3.zero;
+                Quaternion targetRotation;
+
+                //旋转 player camera left&right
+                cameraRotation.y = leftAndRightLookAngle;
+                targetRotation = Quaternion.Euler(cameraRotation);
+                transform.rotation = targetRotation;
+
+                //旋转 camera pivot up&down
+                cameraRotation = Vector3.zero;
+                cameraRotation.x = upAndDownLookAngle;
+                targetRotation = Quaternion.Euler(cameraRotation);
+                cameraPivotTransform.localRotation = targetRotation;
+            }
+            
         }
 
         private void HandleCollisions()
@@ -142,10 +179,10 @@ namespace NZ
                     if (lockOnTarget.transform.root == playerManager.transform.root)
                         continue;
                     //如果目标超过最大锁定距离，跳过，检查下一个潜在目标
-                    if (distanceFromTarget > maximumLockOnDistance * maximumLockOnDistance)
-                        continue;
+                    //if (distanceFromTarget > maximumLockOnDistance * maximumLockOnDistance)
+                    //    continue;
 
-                    //添加层蒙版，只对环境生效
+                    //最后，如果目标在视野之外，或被环境遮挡，则检查下一个潜在目标。
                     if (viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
                     {
                         RaycastHit hit;
@@ -157,11 +194,139 @@ namespace NZ
                         }
                         else
                         {
-                            Debug.Log("We made it");
+                            availableTargets.Add(lockOnTarget);
                         }
                     }
                 }
             }
+            //筛查潜在目标列表，选择第一个来锁定
+            for (int k = 0; k < availableTargets.Count; k++)
+            {
+                if (availableTargets[k] != null)
+                {
+                    float distanceFromTarget = playerManager.transform.position.x * availableTargets[k].transform.position.x +
+                        playerManager.transform.position.y * availableTargets[k].transform.position.y + playerManager.transform.position.z * availableTargets[k].transform.position.z;
+
+                    if (distanceFromTarget < shortestDistance)
+                    {
+                        shortestDistance = distanceFromTarget;
+                        NearestLockOnTarget = availableTargets[k];
+                    }
+                    //当我们搜索目标时已经处于锁定状态，寻找距离最近的左右目标
+                    if (playerManager.playerNetworkManager.isLockOn.Value)
+                    {
+                        Vector3 relativeEnemyPosition = playerManager.transform.InverseTransformDirection(availableTargets[k].transform.position);  //目标点指向玩家的向量
+
+                        var distanceFromLeftTarget = relativeEnemyPosition.x;
+                        var distanceFromRightTarget = relativeEnemyPosition.x;
+
+                        if (availableTargets[k] == playerManager.playerCombatManager.currentTarget)
+                            continue;
+
+                        if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
+                        {
+                            shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                            leftLockOnTarget = availableTargets[k];
+                        }
+                        else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shorestDistanceOfRightTarget)
+                        {
+                            shorestDistanceOfRightTarget = distanceFromRightTarget;
+                            rightLockOnTarget = availableTargets[k];
+                        }
+                    }
+                }
+                else
+                {
+                    ClearLockOnTargets();
+                    playerManager.playerNetworkManager.isLockOn.Value = false;
+                }
+            }
+        }
+
+
+        public void SetLockCameraHeight()
+        {
+            if (cameraLockOnHeightCoroutine != null)
+            {
+                StopCoroutine(cameraLockOnHeightCoroutine);
+            }
+            cameraLockOnHeightCoroutine = StartCoroutine(SetCameraHeight());
+        }
+
+        /// <summary>
+        /// 清除当前我们锁定的目标(只有一个)
+        /// </summary>
+        public void ClearLockOnTargets()
+        {
+            nearestLockOnTarget = null;
+            leftLockOnTarget = null;
+            rightLockOnTarget = null;
+            availableTargets.Clear();
+        }
+
+        public IEnumerator WaitThenFindNewTarget()
+        {
+            while (playerManager.isPerformingAction)
+            {
+                yield return null;
+            }
+
+            ClearLockOnTargets();
+            HandleLocatingLocalTargets();
+
+            if (nearestLockOnTarget != null)
+            {
+                playerManager.playerCombatManager.SetTarget(nearestLockOnTarget);
+                playerManager.playerNetworkManager.isLockOn.Value = true;
+            }
+            yield return null;
+        }
+
+        private IEnumerator SetCameraHeight()
+        {
+            float duration = 1;
+            float timer = 0;
+
+            Vector3 velocity = Vector3.zero;
+            Vector3 newLockedCameraHeight = new Vector3(cameraPivotTransform.transform.localPosition.x, lockedCameraHeight);
+            Vector3 newUnlockCameraHeight = new Vector3(cameraPivotTransform.transform.localPosition.x, unlockedCameraHeight);
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                if (playerManager != null)
+                {
+                    if (playerManager.playerCombatManager.currentTarget != null)
+                    {
+                        cameraPivotTransform.transform.localPosition =
+                            Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newLockedCameraHeight, ref velocity, setCameraHeightSpeed);
+                        cameraPivotTransform.transform.localRotation =
+                            Quaternion.Slerp(cameraPivotTransform.transform.localRotation, Quaternion.Euler(0, 0, 0), setCameraHeightSpeed);
+                    }
+                    else
+                    {
+                        cameraPivotTransform.transform.localPosition =
+                            Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newUnlockCameraHeight, ref velocity, setCameraHeightSpeed);
+                    }
+                }
+
+                yield return null;
+            }
+
+            if (playerManager != null)
+            {
+                if (playerManager.playerCombatManager.currentTarget != null)
+                {
+                    cameraPivotTransform.transform.localPosition = newLockedCameraHeight;
+                    cameraPivotTransform.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    cameraPivotTransform.transform.localPosition = newUnlockCameraHeight;
+                }
+            }
+
+            yield return null;
         }
     }
 }

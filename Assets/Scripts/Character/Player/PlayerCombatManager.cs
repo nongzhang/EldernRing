@@ -50,5 +50,15 @@ namespace NZ
             Debug.Log("Stamina Deducted: " + staminaDeducted);
             playerManager.playerNetworkManager.currentStamina.Value -= Mathf.RoundToInt(staminaDeducted);
         }
+
+        public override void SetTarget(CharacterManager newTarget)
+        {
+            base.SetTarget(newTarget);
+
+            if (playerManager.IsOwner)
+            {
+                PlayerCamera.instance.SetLockCameraHeight();
+            }
+        }
     }
 }

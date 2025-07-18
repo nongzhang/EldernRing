@@ -75,6 +75,10 @@ namespace NZ
             //状态
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
 
+            //Lock on 锁定
+            playerNetworkManager.isLockOn.OnValueChanged += playerNetworkManager.OnIsLockedOnChanged;
+            playerNetworkManager.currentTargetNetworkObjectID.OnValueChanged += playerNetworkManager.OnLockOnTargetIDChange;
+
             //装备
             playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
@@ -119,6 +123,7 @@ namespace NZ
 
             if (IsOwner)
             {
+                isDead.Value = false;  //在调试过程中，用于让角色重生
                 playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
                 playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
 
@@ -160,8 +165,19 @@ namespace NZ
 
         public void LoadOtherPlayerCharacterWhenJoiningServer()
         {
+            //对于后加进来的玩家，同步一次武器，防具，锁定目标等等，因为改变是在他加入进来前发生的
+            //sync weapon
             playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
             playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
+
+            //sync armor
+
+
+            //lock on
+            if (playerNetworkManager.isLockOn.Value)
+            {
+                playerNetworkManager.OnLockOnTargetIDChange(0, playerNetworkManager.currentTargetNetworkObjectID.Value);
+            }
         }
 
         private void DebugMenu()
