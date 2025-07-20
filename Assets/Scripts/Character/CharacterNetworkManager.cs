@@ -68,9 +68,9 @@ namespace NZ
             }
         }
 
-        public void OnIsLockedOnChanged(bool old, bool isLockOn)
+        public void OnIsLockedOnChanged(bool old, bool isLockedOn)
         {
-            if (!isLockOn)
+            if (!isLockedOn)
             {
                 characterManager.characterCombatManager.currentTarget = null;
             }

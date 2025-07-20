@@ -44,7 +44,8 @@ namespace NZ
         private CharacterManager nearestLockOnTarget;
         private CharacterManager leftLockOnTarget;
         private CharacterManager rightLockOnTarget;
-        
+        private Vector3 velocity = Vector3.zero;
+
 
         public CharacterManager NearestLockOnTarget { get => nearestLockOnTarget; set => nearestLockOnTarget = value; }
         public CharacterManager LeftLockOnTarget { get => leftLockOnTarget; set => leftLockOnTarget = value; }
@@ -162,15 +163,16 @@ namespace NZ
             float shortestDistanceOfLeftTarget = -Mathf.Infinity;
 
             Collider[] colliders = Physics.OverlapSphere(playerManager.transform.position, lockOnRadius, WorldUtilityManager.Instance.GetCharacterLayers());
-
+            
             for (int i = 0; i < colliders.Length; i++)
             {
                 CharacterManager lockOnTarget = colliders[i].GetComponent<CharacterManager>();
-
+                Debug.Log(lockOnTarget.gameObject.name);
                 if (lockOnTarget != null)
                 {
                     Vector3 lockOnTargetDirection = lockOnTarget.transform.position - playerManager.transform.position;
-                    float distanceFromTarget = lockOnTargetDirection.x * lockOnTargetDirection.x +lockOnTargetDirection.y * lockOnTargetDirection.y + lockOnTargetDirection.z * lockOnTargetDirection.z;
+                    //float distanceFromTarget = lockOnTargetDirection.x * lockOnTargetDirection.x +lockOnTargetDirection.y * lockOnTargetDirection.y + lockOnTargetDirection.z * lockOnTargetDirection.z;
+                    float distanceFromTarget = Vector3.Distance(lockOnTarget.transform.position, playerManager.transform.position);
                     float viewableAngle = Vector3.Angle(lockOnTargetDirection, cameraObject.transform.forward);
 
                     if (lockOnTarget.isDead.Value)
@@ -199,23 +201,28 @@ namespace NZ
                     }
                 }
             }
-            //筛查潜在目标列表，选择第一个来锁定
+            //我们现在要在潜在目标中进行筛选，以决定首先锁定哪个目标
             for (int k = 0; k < availableTargets.Count; k++)
             {
                 if (availableTargets[k] != null)
                 {
-                    float distanceFromTarget = playerManager.transform.position.x * availableTargets[k].transform.position.x +
-                        playerManager.transform.position.y * availableTargets[k].transform.position.y + playerManager.transform.position.z * availableTargets[k].transform.position.z;
+                    //float distanceFromTarget = playerManager.transform.position.x * availableTargets[k].transform.position.x +
+                    //    playerManager.transform.position.y * availableTargets[k].transform.position.y + playerManager.transform.position.z * availableTargets[k].transform.position.z;
+                    float distanceFromTarget = Vector3.Distance(playerManager.transform.position, availableTargets[k].transform.position);
 
                     if (distanceFromTarget < shortestDistance)
                     {
                         shortestDistance = distanceFromTarget;
                         NearestLockOnTarget = availableTargets[k];
                     }
-                    //当我们搜索目标时已经处于锁定状态，寻找距离最近的左右目标
+                    //如果在搜索目标时我们已经处于锁定状态，就在当前目标的基础上搜索最近的左侧或右侧目标
                     if (playerManager.playerNetworkManager.isLockOn.Value)
                     {
                         Vector3 relativeEnemyPosition = playerManager.transform.InverseTransformDirection(availableTargets[k].transform.position);  //目标点指向玩家的向量
+
+                        //Vector3 directionToTarget = availableTargets[k].transform.position - playerManager.transform.position;
+                        //Vector3 relativeEnemyPosition = playerManager.transform.InverseTransformDirection(directionToTarget);
+
 
                         var distanceFromLeftTarget = relativeEnemyPosition.x;
                         var distanceFromRightTarget = relativeEnemyPosition.x;
@@ -225,6 +232,7 @@ namespace NZ
 
                         if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
                         {
+                            //Debug.Log("Switch to left target");
                             shortestDistanceOfLeftTarget = distanceFromLeftTarget;
                             leftLockOnTarget = availableTargets[k];
                         }
@@ -287,7 +295,7 @@ namespace NZ
             float duration = 1;
             float timer = 0;
 
-            Vector3 velocity = Vector3.zero;
+            //Vector3 velocity = Vector3.zero;
             Vector3 newLockedCameraHeight = new Vector3(cameraPivotTransform.transform.localPosition.x, lockedCameraHeight);
             Vector3 newUnlockCameraHeight = new Vector3(cameraPivotTransform.transform.localPosition.x, unlockedCameraHeight);
 

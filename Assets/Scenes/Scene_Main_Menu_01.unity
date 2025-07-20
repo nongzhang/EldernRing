@@ -183,6 +183,8 @@ MonoBehaviour:
   sprintInput: 0
   jumpInput: 0
   RB_Input: 0
+  RT_Input: 0
+  Hold_RT_Input: 0
 --- !u!1001 &42615312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5449,6 +5451,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
         type: 3}
+      propertyPath: lockOnRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
       propertyPath: maximumPivot
       value: 60
       objectReference: {fileID: 0}
@@ -5456,6 +5463,16 @@ PrefabInstance:
         type: 3}
       propertyPath: minimumPivot
       value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
+      propertyPath: lockedCameraHeight
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
+        type: 3}
+      propertyPath: unlockedCameraHeight
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1856859520968621977, guid: 14633ab31764bff42b959efe9409aa01,
         type: 3}
@@ -5798,6 +5815,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2511125168982941354, guid: 8b9af3cbaf1cf4d4f842131b2a1f3223,
+        type: 3}
+      propertyPath: characterLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 3082118786521210621, guid: 8b9af3cbaf1cf4d4f842131b2a1f3223,
         type: 3}
       propertyPath: m_RootOrder

@@ -22,6 +22,8 @@ namespace NZ
         [SerializeField] bool lockOn_RightInput;
         [SerializeField] Vector2 lockOn_MouseInput;
         private Coroutine lockOnCoroutine;
+        private Vector2 lastMousePosition = Vector2.zero;
+        private bool isMouseMovedLeft = false;
 
 
         [Header("PLAYER MOVEMENT INPUT")]
@@ -33,8 +35,14 @@ namespace NZ
         [Header("PLAYER ACTION INPUT")]
         [SerializeField] bool dodgeInput = false;
         [SerializeField] bool sprintInput = false;
-        [SerializeField] bool jumpInput = false;
+        [SerializeField] bool jumpInput = false;  
+
+        [Header("BUMPER INPUTS")]
         [SerializeField] bool RB_Input = false;           //手柄右肩键，鼠标右键
+
+        [Header("TRIGGER INPUTS")]
+        [SerializeField] bool RT_Input = false;
+        [SerializeField] bool Hold_RT_Input = false;
 
         private void Awake()
         {
@@ -98,6 +106,7 @@ namespace NZ
                 playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOn_LeftInput = true;
                 playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOn_RightInput = true;
                 playerControls.PlayerActions.SeekLockTargetByMouse.performed += i => lockOn_MouseInput = i.ReadValue<Vector2>();
+                playerControls.PlayerActions.SeekLockTargetByMouse.performed += OnMouseMove;
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -142,7 +151,7 @@ namespace NZ
 
         private void Update()
         {
-            HandleAllInput();
+            HandleAllInput(); 
         }
 
         private void HandleAllInput()
@@ -159,24 +168,29 @@ namespace NZ
 
         private void HandleLockOnInput()
         {
-            //目标是否已经死亡
-            if (playerManager.playerNetworkManager.isLockOn.Value)
+            
+            if (playerManager.playerNetworkManager.isLockOn.Value)     //playerManager.playerNetworkManager.isLockOn.Value
             {
+                //lockOnInput = false;
                 if (playerManager.playerCombatManager.currentTarget == null)
                 {
                     return;
                 }
+                //目标是否已经死亡
                 if (playerManager.playerCombatManager.currentTarget.isDead.Value)
                 {
                     playerManager.playerNetworkManager.isLockOn.Value = false;
+
+                    //尝试寻找新的目标
+                    //确保在同一时刻不会运行多个协程
+                    if (lockOnCoroutine != null)
+                        StopCoroutine(lockOnCoroutine);
+                    lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
                 }
 
-                //尝试寻找新的目标
-                //确保在同一时刻不会运行多个协程
-                if (lockOnCoroutine != null)
-                    StopCoroutine(lockOnCoroutine);
-                lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
+                
             }
+            
 
             //如果在锁定状态下我们再按锁定键就是解锁
             if (lockOnInput && playerManager.playerNetworkManager.isLockOn.Value)
@@ -202,7 +216,7 @@ namespace NZ
 
         private void HandleLockOnSwitchTargetInput()
         {
-            if (lockOn_LeftInput || lockOn_MouseInput.x < 0)
+            if (lockOn_LeftInput)
             {
                 lockOn_LeftInput = false;
                 if (playerManager.playerNetworkManager.isLockOn.Value)
@@ -216,7 +230,7 @@ namespace NZ
                 }
             }
 
-            if (lockOn_RightInput || lockOn_MouseInput.x > 0)
+            if (lockOn_RightInput)  // || lockOn_MouseInput.x > 20
             {
                 lockOn_RightInput = false;
                 if (playerManager.playerNetworkManager.isLockOn.Value)
@@ -229,6 +243,27 @@ namespace NZ
                     }
                 }
             }
+        }
+
+        void OnMouseMove(InputAction.CallbackContext context)
+        {
+            Vector2 currentMousePosition = context.ReadValue<Vector2>();
+
+            // 判断鼠标是否向左移动
+            if (currentMousePosition.x < lastMousePosition.x)
+            {
+                isMouseMovedLeft = true;
+            }
+            else
+            {
+                isMouseMovedLeft = false;
+            }
+
+            // 更新最后的鼠标位置
+            lastMousePosition = currentMousePosition;
+
+            // 输出布尔值
+            Debug.Log($"Mouse moved left: {isMouseMovedLeft}");
         }
 
         private void HandlePlayerMovementInput()
