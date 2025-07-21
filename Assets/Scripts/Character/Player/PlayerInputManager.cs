@@ -24,6 +24,10 @@ namespace NZ
         private Coroutine lockOnCoroutine;
         private Vector2 lastMousePosition = Vector2.zero;
         private bool isMouseMovedLeft = false;
+        private bool isMouseMovedRight = false;
+        public float stillThreshold = 0.01f; // 可调阈值，避免微小抖动误判
+        public bool isMouseStill;
+        private CooldownTimer swapCooldownTimer = new CooldownTimer(0.5f);
 
 
         [Header("PLAYER MOVEMENT INPUT")]
@@ -65,6 +69,7 @@ namespace NZ
             {
                 playerControls.Disable();
             }
+            
         }
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
@@ -105,8 +110,13 @@ namespace NZ
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
                 playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOn_LeftInput = true;
                 playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOn_RightInput = true;
+
                 playerControls.PlayerActions.SeekLockTargetByMouse.performed += i => lockOn_MouseInput = i.ReadValue<Vector2>();
-                playerControls.PlayerActions.SeekLockTargetByMouse.performed += OnMouseMove;
+                //playerControls.PlayerActions.SeekLockTargetByMouse.performed += OnMouseMove;
+
+
+                playerControls.PlayerActions.SeekLeftLockTargetByMouse.performed += i => isMouseMovedLeft = true;
+                playerControls.PlayerActions.SeekRightLockTargetByMouse.performed += i => isMouseMovedRight = true;
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -156,6 +166,15 @@ namespace NZ
 
         private void HandleAllInput()
         {
+            Vector2 currentMousePosition = Mouse.current.position.ReadValue();
+            float distance = Vector2.Distance(currentMousePosition, lastMousePosition);
+
+            isMouseStill = distance < stillThreshold;
+
+            lastMousePosition = currentMousePosition;
+
+            //HandleMouseMove();
+
             HandleLockOnInput();
             HandleLockOnSwitchTargetInput();
             HandlePlayerMovementInput();
@@ -163,7 +182,22 @@ namespace NZ
             HandleDodgeInput();
             HandleSprintInput();
             HandleJumpInput();
-            HandRBInput();
+            HandRBInput(); 
+        }
+
+        private void HandleMouseMove()
+        {
+            if (isMouseMovedLeft && isMouseStill)
+            {
+                isMouseMovedLeft = false;
+                Debug.Log("鼠标向左移动了");
+            }
+
+            if (isMouseMovedRight && isMouseStill)
+            {
+                isMouseMovedRight = false;
+                Debug.Log("鼠标向右移动了");
+            }
         }
 
         private void HandleLockOnInput()
@@ -216,33 +250,84 @@ namespace NZ
 
         private void HandleLockOnSwitchTargetInput()
         {
-            if (lockOn_LeftInput)
-            {
-                lockOn_LeftInput = false;
-                if (playerManager.playerNetworkManager.isLockOn.Value)
-                {
-                    PlayerCamera.instance.HandleLocatingLocalTargets();
+            //if (lockOn_LeftInput || (isMouseMovedLeft && isMouseStill))
+            //{
+            //    Debug.Log("鼠标向左移动了");
+            //    lockOn_LeftInput = false;
+            //    isMouseMovedLeft = false;
+            //    if (playerManager.playerNetworkManager.isLockOn.Value)
+            //    {
+            //        PlayerCamera.instance.HandleLocatingLocalTargets();
 
-                    if (PlayerCamera.instance.LeftLockOnTarget != null)
+            //        if (PlayerCamera.instance.LeftLockOnTarget != null)
+            //        {
+            //            playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.LeftLockOnTarget);
+            //        }
+            //    }
+            //}
+
+            swapCooldownTimer.Tick(Time.deltaTime);
+
+            if (playerManager.playerNetworkManager.isLockOn.Value)
+            {
+                if (swapCooldownTimer.IsReady())
+                {
+                    if (lockOn_LeftInput || lockOn_MouseInput.x < -20)
                     {
-                        playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.LeftLockOnTarget);
+                        Debug.Log("mouse move left");
+                        lockOn_LeftInput = false;
+                        //isMouseMovedLeft = false;
+                        PlayerCamera.instance.HandleLocatingLocalTargets();
+
+                        if (PlayerCamera.instance.LeftLockOnTarget != null)
+                        {
+                            playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.LeftLockOnTarget);
+                        }
+                        swapCooldownTimer.Start();
                     }
                 }
+                
             }
 
-            if (lockOn_RightInput)  // || lockOn_MouseInput.x > 20
+            if (playerManager.playerNetworkManager.isLockOn.Value)
             {
-                lockOn_RightInput = false;
-                if (playerManager.playerNetworkManager.isLockOn.Value)
+                if (swapCooldownTimer.IsReady())
                 {
-                    PlayerCamera.instance.HandleLocatingLocalTargets();
-
-                    if (PlayerCamera.instance.RightLockOnTarget != null)
+                    if (lockOn_RightInput || lockOn_MouseInput.x > 20)
                     {
-                        playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.RightLockOnTarget);
+                        Debug.Log("mouse move right");
+                        lockOn_RightInput = false;
+                        //isMouseMovedRight = false;
+                        PlayerCamera.instance.HandleLocatingLocalTargets();
+
+                        if (PlayerCamera.instance.RightLockOnTarget != null)
+                        {
+                            playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.RightLockOnTarget);
+                        }
+                        swapCooldownTimer.Start();
                     }
-                }
+                }    
             }
+
+
+
+
+
+            //if (lockOn_RightInput || (isMouseMovedRight && isMouseStill))  // || lockOn_MouseInput.x > 20
+            //{
+            //    Debug.Log("鼠标向右移动了");
+            //    lockOn_RightInput = false;
+            //    isMouseMovedRight = false;
+            //    if (playerManager.playerNetworkManager.isLockOn.Value)
+            //    {
+            //        PlayerCamera.instance.HandleLocatingLocalTargets();
+
+            //        if (PlayerCamera.instance.RightLockOnTarget != null)
+            //        {
+            //            playerManager.playerCombatManager.SetTarget(PlayerCamera.instance.RightLockOnTarget);
+            //        }
+            //    }
+            //}
         }
 
         void OnMouseMove(InputAction.CallbackContext context)

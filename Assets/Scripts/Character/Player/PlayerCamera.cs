@@ -167,7 +167,7 @@ namespace NZ
             for (int i = 0; i < colliders.Length; i++)
             {
                 CharacterManager lockOnTarget = colliders[i].GetComponent<CharacterManager>();
-                Debug.Log(lockOnTarget.gameObject.name);
+                //Debug.Log(lockOnTarget.gameObject.name);
                 if (lockOnTarget != null)
                 {
                     Vector3 lockOnTargetDirection = lockOnTarget.transform.position - playerManager.transform.position;

@@ -326,13 +326,31 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Seek LockTarget By Mouse",
-                    "type": "Button",
+                    "name": "Seek Left LockTarget By Mouse",
+                    "type": "Value",
                     "id": "54d64048-3ad9-43c0-aa18-0bbe1626404b",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Delta",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Seek Right LockTarget By Mouse",
+                    "type": "Value",
+                    "id": "3e5be845-36af-4e12-b35e-deb4572a8e63",
+                    "expectedControlType": "Delta",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Seek Lock Target By Mouse",
+                    "type": "Value",
+                    "id": "dacff986-611a-4c8a-ac7e-b155b42690c9",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -526,11 +544,11 @@
                 {
                     "name": "",
                     "id": "0c6389d3-b359-4714-97e0-10f38ed5813c",
-                    "path": "<Mouse>/delta",
+                    "path": "<Mouse>/delta/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Seek LockTarget By Mouse",
+                    "action": "Seek Left LockTarget By Mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -553,6 +571,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Hold RT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13263462-659d-4aca-a90e-6abeb65ad301",
+                    "path": "<Mouse>/delta/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek Right LockTarget By Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4756500-1a69-4fd5-b5fa-deaa731b6e65",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek Lock Target By Mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
