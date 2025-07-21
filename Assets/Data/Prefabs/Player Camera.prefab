@@ -208,3 +208,10 @@ MonoBehaviour:
     m_Bits: 1
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
+  lockOnRadius: 20
+  minimumViewableAngle: -50
+  maximumViewableAngle: 50
+  lockOnTargetFollowSpeed: 1
+  setCameraHeightSpeed: 0.05
+  unlockedCameraHeight: 0.6
+  lockedCameraHeight: 0.95

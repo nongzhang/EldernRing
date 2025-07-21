@@ -104,7 +104,14 @@ namespace NZ
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+
+                //Bumpers 肩键
                 playerControls.PlayerActions.RB.performed += i => RB_Input = true;
+
+                //Trigger 扳机键
+                playerControls.PlayerActions.RT.performed += i => RT_Input = true;
+                playerControls.PlayerActions.HoldRT.performed += i => Hold_RT_Input = true;
+                playerControls.PlayerActions.HoldRT.canceled += i => Hold_RT_Input = false;
 
                 //Lock on
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
@@ -115,8 +122,8 @@ namespace NZ
                 //playerControls.PlayerActions.SeekLockTargetByMouse.performed += OnMouseMove;
 
 
-                playerControls.PlayerActions.SeekLeftLockTargetByMouse.performed += i => isMouseMovedLeft = true;
-                playerControls.PlayerActions.SeekRightLockTargetByMouse.performed += i => isMouseMovedRight = true;
+                //playerControls.PlayerActions.SeekLeftLockTargetByMouse.performed += i => isMouseMovedLeft = true;
+                //playerControls.PlayerActions.SeekRightLockTargetByMouse.performed += i => isMouseMovedRight = true;
 
                 //按住输入，将sprintInput设为true
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -165,13 +172,7 @@ namespace NZ
         }
 
         private void HandleAllInput()
-        {
-            Vector2 currentMousePosition = Mouse.current.position.ReadValue();
-            float distance = Vector2.Distance(currentMousePosition, lastMousePosition);
-
-            isMouseStill = distance < stillThreshold;
-
-            lastMousePosition = currentMousePosition;
+        {   
 
             //HandleMouseMove();
 
@@ -183,6 +184,8 @@ namespace NZ
             HandleSprintInput();
             HandleJumpInput();
             HandRBInput(); 
+            HandleRTInput();
+            HandleChargeRTInput();
         }
 
         private void HandleMouseMove()
@@ -265,6 +268,13 @@ namespace NZ
             //        }
             //    }
             //}
+
+            //Vector2 currentMousePosition = Mouse.current.position.ReadValue();
+            //float distance = Vector2.Distance(currentMousePosition, lastMousePosition);
+
+            //isMouseStill = distance < stillThreshold;
+
+            //lastMousePosition = currentMousePosition;
 
             swapCooldownTimer.Tick(Time.deltaTime);
 
@@ -432,6 +442,28 @@ namespace NZ
             }
         }
 
+        private void HandleRTInput()
+        {
+            if (RT_Input)
+            {
+                RT_Input = false;
+
+                playerManager.playerNetworkManager.SetCharacterActionHand(true);
+
+                playerManager.playerCombatManager.PerformWeaponBasedAction(playerManager.playerInventoryManager.currentRightHandWeapon.oneHandRT_Action, playerManager.playerInventoryManager.currentRightHandWeapon);
+            }
+        }
+
+        private void HandleChargeRTInput()
+        {
+            if (playerManager.isPerformingAction)
+            {
+                if (playerManager.playerNetworkManager.isUsingRightHand.Value)
+                {
+                    playerManager.playerNetworkManager.isChargingAttack.Value = Hold_RT_Input;
+                }
+            }
+        }
     }
 }
 

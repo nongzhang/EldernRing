@@ -74,7 +74,7 @@ namespace NZ
             {
                 finalDamageDealt = 1;
             }
-            Debug.Log(finalDamageDealt);
+            Debug.Log("finalDamageDealt: "+ finalDamageDealt);
             character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
         }
 

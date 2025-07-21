@@ -299,7 +299,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""id"": ""3f840267-5017-4e0a-a3af-28e83f279a2e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -346,24 +346,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Seek Left LockTarget By Mouse"",
-                    ""type"": ""Value"",
-                    ""id"": ""54d64048-3ad9-43c0-aa18-0bbe1626404b"",
-                    ""expectedControlType"": ""Delta"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Seek Right LockTarget By Mouse"",
-                    ""type"": ""Value"",
-                    ""id"": ""3e5be845-36af-4e12-b35e-deb4572a8e63"",
-                    ""expectedControlType"": ""Delta"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Seek Lock Target By Mouse"",
@@ -565,17 +547,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0c6389d3-b359-4714-97e0-10f38ed5813c"",
-                    ""path"": ""<Mouse>/delta/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Seek Left LockTarget By Mouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""edb7c586-32cc-4c9e-af5b-d1df3e513ab0"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -584,6 +555,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""RT"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Shift + Left Mouse Button"",
+                    ""id"": ""1c44b826-4ce0-4ebe-bc89-83a38adaef6e"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RT"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""47bd4286-cb87-429b-b650-f5acc7cccde2"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""fb272892-6d7e-403f-b8c3-3fbebc9a81fb"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -597,15 +601,37 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""13263462-659d-4aca-a90e-6abeb65ad301"",
-                    ""path"": ""<Mouse>/delta/right"",
+                    ""name"": ""Shift + Hold Left Mouse Button"",
+                    ""id"": ""1f09ffe8-3189-44f2-8fcb-169e24c8d616"",
+                    ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Seek Right LockTarget By Mouse"",
-                    ""isComposite"": false,
+                    ""action"": ""Hold RT"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""68cc56b0-aebb-4981-8cf1-3873c25982f1"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hold RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""9fc48436-873b-44c7-9911-72001f9a0c2d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hold RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -729,8 +755,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions_SeekLeftLockOnTarget = m_PlayerActions.FindAction("Seek Left Lock On Target", throwIfNotFound: true);
         m_PlayerActions_SeekRightLockOnTarget = m_PlayerActions.FindAction("Seek Right Lock On Target", throwIfNotFound: true);
         m_PlayerActions_TwoHand = m_PlayerActions.FindAction("Two Hand", throwIfNotFound: true);
-        m_PlayerActions_SeekLeftLockTargetByMouse = m_PlayerActions.FindAction("Seek Left LockTarget By Mouse", throwIfNotFound: true);
-        m_PlayerActions_SeekRightLockTargetByMouse = m_PlayerActions.FindAction("Seek Right LockTarget By Mouse", throwIfNotFound: true);
         m_PlayerActions_SeekLockTargetByMouse = m_PlayerActions.FindAction("Seek Lock Target By Mouse", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -882,8 +906,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_SeekLeftLockOnTarget;
     private readonly InputAction m_PlayerActions_SeekRightLockOnTarget;
     private readonly InputAction m_PlayerActions_TwoHand;
-    private readonly InputAction m_PlayerActions_SeekLeftLockTargetByMouse;
-    private readonly InputAction m_PlayerActions_SeekRightLockTargetByMouse;
     private readonly InputAction m_PlayerActions_SeekLockTargetByMouse;
     public struct PlayerActionsActions
     {
@@ -899,8 +921,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @SeekLeftLockOnTarget => m_Wrapper.m_PlayerActions_SeekLeftLockOnTarget;
         public InputAction @SeekRightLockOnTarget => m_Wrapper.m_PlayerActions_SeekRightLockOnTarget;
         public InputAction @TwoHand => m_Wrapper.m_PlayerActions_TwoHand;
-        public InputAction @SeekLeftLockTargetByMouse => m_Wrapper.m_PlayerActions_SeekLeftLockTargetByMouse;
-        public InputAction @SeekRightLockTargetByMouse => m_Wrapper.m_PlayerActions_SeekRightLockTargetByMouse;
         public InputAction @SeekLockTargetByMouse => m_Wrapper.m_PlayerActions_SeekLockTargetByMouse;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
@@ -941,12 +961,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TwoHand.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTwoHand;
                 @TwoHand.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTwoHand;
                 @TwoHand.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTwoHand;
-                @SeekLeftLockTargetByMouse.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLeftLockTargetByMouse;
-                @SeekLeftLockTargetByMouse.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLeftLockTargetByMouse;
-                @SeekLeftLockTargetByMouse.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLeftLockTargetByMouse;
-                @SeekRightLockTargetByMouse.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekRightLockTargetByMouse;
-                @SeekRightLockTargetByMouse.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekRightLockTargetByMouse;
-                @SeekRightLockTargetByMouse.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekRightLockTargetByMouse;
                 @SeekLockTargetByMouse.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLockTargetByMouse;
@@ -984,12 +998,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TwoHand.started += instance.OnTwoHand;
                 @TwoHand.performed += instance.OnTwoHand;
                 @TwoHand.canceled += instance.OnTwoHand;
-                @SeekLeftLockTargetByMouse.started += instance.OnSeekLeftLockTargetByMouse;
-                @SeekLeftLockTargetByMouse.performed += instance.OnSeekLeftLockTargetByMouse;
-                @SeekLeftLockTargetByMouse.canceled += instance.OnSeekLeftLockTargetByMouse;
-                @SeekRightLockTargetByMouse.started += instance.OnSeekRightLockTargetByMouse;
-                @SeekRightLockTargetByMouse.performed += instance.OnSeekRightLockTargetByMouse;
-                @SeekRightLockTargetByMouse.canceled += instance.OnSeekRightLockTargetByMouse;
                 @SeekLockTargetByMouse.started += instance.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.performed += instance.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.canceled += instance.OnSeekLockTargetByMouse;
@@ -1092,8 +1100,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSeekLeftLockOnTarget(InputAction.CallbackContext context);
         void OnSeekRightLockOnTarget(InputAction.CallbackContext context);
         void OnTwoHand(InputAction.CallbackContext context);
-        void OnSeekLeftLockTargetByMouse(InputAction.CallbackContext context);
-        void OnSeekRightLockTargetByMouse(InputAction.CallbackContext context);
         void OnSeekLockTargetByMouse(InputAction.CallbackContext context);
     }
     public interface IUIActions

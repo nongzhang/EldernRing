@@ -32,3 +32,4 @@ MonoBehaviour:
   baseStaminaCost: 20
   lightAttackStaminaCostMultiplier: 0.9
   oneHandRB_Action: {fileID: 11400000, guid: c4df00eb1e444f24b9600954d9e9f80a, type: 2}
+  oneHandRT_Action: {fileID: 11400000, guid: 3ff390b4d2f76a34ea21f878409e0127, type: 2}

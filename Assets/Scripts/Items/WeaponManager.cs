@@ -23,6 +23,8 @@ namespace NZ
             meleeWeaponDamageCollider.holyDamage = weapon.holyDamage;
 
             meleeWeaponDamageCollider.light_Attack_01_Modifier = weapon.light_Attack_01_Modifier;
+            meleeWeaponDamageCollider.heavy_Attack_01_Modifier = weapon.heavy_Attack_01_Modifier;
+            meleeWeaponDamageCollider.charge_Attack_01_Modifier = weapon.charge_Attack_01_Modifier;
         }
     }
 }

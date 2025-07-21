@@ -158,7 +158,6 @@ namespace NZ
             string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, 
             bool canRotate = false, bool canMove = false)
         {
-            Debug.Log("Playing Animation: " + targetAnimation);
             //可以用它来阻止角色再试图执行新动作
             //例如：当你角色受到伤害并开始播放受击动画。这个标志位就会设置成 true，表示你处于stunned(硬直)状态。
             //之后我们可以在玩家输入或 AI 执行动作前，先检查这个标志位，不让它在stunned(硬直)期间做出新操作。

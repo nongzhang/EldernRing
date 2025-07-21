@@ -31,7 +31,12 @@ public enum WeaponModelSlot
     //Back
 }
 
+//基于攻击类型计算伤害
 public enum AttackType
 {
-    LightAttack01
+    LightAttack01,
+    LightAttack02,
+    HeavyAttack01,
+    ChargedAttack01,
+    ChargedAttack02
 }

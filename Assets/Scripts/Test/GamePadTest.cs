@@ -37,8 +37,8 @@ public class GamePadTest : MonoBehaviour
 
 
             //Êó±ê¿ØÖÆ
-            playerControls.PlayerActions.SeekLeftLockTargetByMouse.performed += i => isMouseMovedLeft = true;
-            playerControls.PlayerActions.SeekRightLockTargetByMouse.performed += i => isMouseMovedRight = true;
+            //playerControls.PlayerActions.SeekLeftLockTargetByMouse.performed += i => isMouseMovedLeft = true;
+            //playerControls.PlayerActions.SeekRightLockTargetByMouse.performed += i => isMouseMovedRight = true;
 
 
             //¼üÅÌ¿ØÖÆ
