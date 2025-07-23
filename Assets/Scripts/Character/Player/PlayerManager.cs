@@ -18,6 +18,8 @@ namespace NZ
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
         [HideInInspector] public PlayerCombatManager playerCombatManager;
+
+        int defaultAnimationClip;
         protected override void Awake()
         {
             base.Awake();

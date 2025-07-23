@@ -181,6 +181,7 @@ namespace NZ
             //判断这次攻击是否可以被招架
             //通知网络：“正在攻击”状态被激活（用于计算反击伤害等）
             characterManager.characterCombatManager.currentAttackType = attackType;
+            characterManager.characterCombatManager.lastAttackAnimationPerformed = targetAnimation;
             characterManager.applyRootMotion = applyRootMotion;
             characterManager.animator.CrossFade(targetAnimation, 0.2f);
             characterManager.isPerformingAction = isPerformingAction;
@@ -189,6 +190,18 @@ namespace NZ
 
             //告诉服务器/主机,我们播放了一个动画，然后也让所有其他玩家看到我们正在播放这个动画。
             characterManager.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+        }
+
+
+        public virtual void EnableCanDoCombo()
+        {
+
+        }
+
+
+        public virtual void DisableCanDoCombo()
+        {
+            
         }
     }
 }

@@ -58,13 +58,23 @@ namespace NZ
             WeaponItem weaponItem = Instantiate(WorldItemDataBase.Instance.GetWeaponByID(newID));
             playerManager.playerInventoryManager.currentRightHandWeapon = weaponItem;
             playerManager.playerEquipmentManager.LoadRightWeapon();
+
+            if (playerManager.IsOwner)
+            {
+                PlayerUIManager.instance.playerUIHUDManager.SetRightWeaponQuickSlotIcon(newID);
+            }
         }
 
         public void OnCurrentLeftHandWeaponIDChange(int oldID, int newID)
         {
             WeaponItem weaponItem = Instantiate(WorldItemDataBase.Instance.GetWeaponByID(newID));
             playerManager.playerInventoryManager.currentLeftHandWeapon = weaponItem;
-            playerManager.playerEquipmentManager.LoadRightWeapon();
+            playerManager.playerEquipmentManager.LoadLeftWeapon();
+
+            if (playerManager.IsOwner)
+            {
+                PlayerUIManager.instance.playerUIHUDManager.SetLeftWeaponQuickSlotIcon(newID);
+            }
         }
 
         public void OnCurrentWeaponBeingUsedIDChange(int oldID, int newID)

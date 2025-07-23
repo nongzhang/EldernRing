@@ -8,6 +8,9 @@ namespace NZ
     {
         CharacterManager characterManager;
 
+        [Header("Last Attack Animation Performed")]  //上一次执行的攻击动作
+        public string lastAttackAnimationPerformed;
+
         [Header("Attack Target")]
         public CharacterManager currentTarget;
 

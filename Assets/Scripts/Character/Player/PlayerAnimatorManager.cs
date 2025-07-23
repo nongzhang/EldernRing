@@ -22,5 +22,23 @@ namespace NZ
                 playerManager.transform.rotation *= playerManager.animator.deltaRotation;
             }
         }
+
+        public override void EnableCanDoCombo()
+        {
+            if (playerManager.playerNetworkManager.isUsingRightHand.Value)
+            {
+                playerManager.playerCombatManager.canComboWithMainHandWeapon = true;
+            }
+            else 
+            { 
+                //启用副手连击动作
+            }
+        }
+            
+
+        public override void DisableCanDoCombo()
+        {
+            playerManager.playerCombatManager.canComboWithMainHandWeapon = false;
+        }
     }
 }

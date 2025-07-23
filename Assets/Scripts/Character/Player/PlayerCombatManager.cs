@@ -9,6 +9,10 @@ namespace NZ
         PlayerManager playerManager;
         public WeaponItem currentWeaponBeingUsed;
 
+        [Header("Flags")]
+        public bool canComboWithMainHandWeapon = false;
+        //public bool canComboWithOffHandWeapon = false;
+
         protected override void Awake()
         {
             base.Awake();
@@ -20,6 +24,11 @@ namespace NZ
         {
             if (playerManager.IsOwner)
             {
+                if (!weaponPerformingAction) 
+                {
+                    
+                }
+
                 //Ö´ÐÐ¶¯×÷
                 weaponAction.AttemptToPerformAction(playerManager, weaponPerformingAction);
 

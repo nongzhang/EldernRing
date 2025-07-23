@@ -54,7 +54,7 @@ namespace NZ
         {
             if (!playerManager.IsOwner)
                 return;
-            playerManager.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false,true,true,true);
+            playerManager.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false,false,true,true);
 
             //武器切换逻辑，当玩家装备两个武器时，只在这两个武器间切换。当玩家只装备一个武器时，不会切换到空的武器槽，只会在主武器和空手之间切换
 
@@ -113,6 +113,70 @@ namespace NZ
             }
         }
 
+
+        public void SwitchLeftWeapon()
+        {
+            if (!playerManager.IsOwner)
+                return;
+            playerManager.playerAnimatorManager.PlayTargetActionAnimation("Swap_Left_Weapon_01", false, false, true, true);
+
+            //武器切换逻辑，当玩家装备两个武器时，只在这两个武器间切换。当玩家只装备一个武器时，不会切换到空的武器槽，只会在主武器和空手之间切换
+
+            WeaponItem selectedWeapon = null;
+
+            //如果是双持的话，切换成单持再进行切换
+            playerManager.playerInventoryManager.leftHandWeaponIndex += 1;
+            if (playerManager.playerInventoryManager.leftHandWeaponIndex < 0 || playerManager.playerInventoryManager.leftHandWeaponIndex > 2)
+            {
+                playerManager.playerInventoryManager.leftHandWeaponIndex = 0;
+
+                //检查我们是否装备超过一件武器
+                float weaponCount = 0;
+                WeaponItem firstWeapon = null;
+                int firstWeaponPosition = 0;
+
+                for (int i = 0; i < playerManager.playerInventoryManager.weaponInLeftHandSlot.Length; i++)
+                {
+                    if (playerManager.playerInventoryManager.weaponInLeftHandSlot[i].itemID != WorldItemDataBase.Instance.unarmedWeapon.itemID)
+                    {
+                        weaponCount++;
+                        if (firstWeapon == null)
+                        {
+                            firstWeapon = playerManager.playerInventoryManager.weaponInLeftHandSlot[i];
+                            firstWeaponPosition = i;
+                        }
+                    }
+                }
+                if (weaponCount <= 1)
+                {
+                    playerManager.playerInventoryManager.leftHandWeaponIndex = -1;
+                    selectedWeapon = WorldItemDataBase.Instance.unarmedWeapon;
+                    playerManager.playerNetworkManager.currentLeftHandWeaponID.Value = selectedWeapon.itemID;
+                }
+                else
+                {
+                    playerManager.playerInventoryManager.leftHandWeaponIndex = firstWeaponPosition;
+                    playerManager.playerNetworkManager.currentLeftHandWeaponID.Value = firstWeapon.itemID;
+                }
+                return;
+            }
+
+            foreach (WeaponItem item in playerManager.playerInventoryManager.weaponInLeftHandSlot)
+            {
+                if (playerManager.playerInventoryManager.weaponInLeftHandSlot[playerManager.playerInventoryManager.leftHandWeaponIndex].itemID != WorldItemDataBase.Instance.unarmedWeapon.itemID)
+                {
+                    selectedWeapon = playerManager.playerInventoryManager.weaponInLeftHandSlot[playerManager.playerInventoryManager.leftHandWeaponIndex];
+                    playerManager.playerNetworkManager.currentLeftHandWeaponID.Value = playerManager.playerInventoryManager.weaponInLeftHandSlot[playerManager.playerInventoryManager.leftHandWeaponIndex].itemID;
+                    return;
+                }
+            }
+
+            if (selectedWeapon == null && playerManager.playerInventoryManager.leftHandWeaponIndex <= 2)
+            {
+                SwitchLeftWeapon();
+            }
+        }
+
         public void LoadRightWeapon()
         {
             if (playerManager.playerInventoryManager.currentRightHandWeapon != null)
@@ -124,11 +188,6 @@ namespace NZ
                 rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
                 rightWeaponManager.SetWeaponDamage(playerManager, playerManager.playerInventoryManager.currentRightHandWeapon);
             }
-        }
-
-        public void SwitchLeftWeapon()
-        {
-
         }
 
         public void LoadLeftWeapon()

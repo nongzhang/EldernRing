@@ -39,7 +39,9 @@ namespace NZ
         [Header("PLAYER ACTION INPUT")]
         [SerializeField] bool dodgeInput = false;
         [SerializeField] bool sprintInput = false;
-        [SerializeField] bool jumpInput = false;  
+        [SerializeField] bool jumpInput = false;
+        [SerializeField] bool switchRightWeaponInput = false;
+        [SerializeField] bool switchLeftWeaponInput = false;
 
         [Header("BUMPER INPUTS")]
         [SerializeField] bool RB_Input = false;           //手柄右肩键，鼠标右键
@@ -98,12 +100,15 @@ namespace NZ
             if (playerControls == null)
             {
                 playerControls = new PlayerControls();
-                playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();   //Lambda表达式
-                                                                                                                   //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
+                playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();   //Lambda表达式                                                                                                   //playerControls.PlayerMovement.Movement.performed += OnMovementPerformed;
                 //playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+
+                //Action 动作
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+                playerControls.PlayerActions.SwitchRightWeapon.performed += i => switchRightWeaponInput = true;
+                playerControls.PlayerActions.SwitchLeftWeapon.performed += i => switchLeftWeaponInput = true;
 
                 //Bumpers 肩键
                 playerControls.PlayerActions.RB.performed += i => RB_Input = true;
@@ -186,6 +191,8 @@ namespace NZ
             HandRBInput(); 
             HandleRTInput();
             HandleChargeRTInput();
+            HandleSwitchRightWeaponInput();
+            HandleSwitchLeftWeaponInput();
         }
 
         private void HandleMouseMove()
@@ -462,6 +469,24 @@ namespace NZ
                 {
                     playerManager.playerNetworkManager.isChargingAttack.Value = Hold_RT_Input;
                 }
+            }
+        }
+
+        private void HandleSwitchRightWeaponInput()
+        {
+            if (switchRightWeaponInput)
+            {
+                switchRightWeaponInput = false;
+                playerManager.playerEquipmentManager.SwitchRightWeapon();
+            }
+        }
+
+        private void HandleSwitchLeftWeaponInput()
+        {
+            if (switchLeftWeaponInput)
+            {
+                switchLeftWeaponInput = false;
+                playerManager.playerEquipmentManager.SwitchLeftWeapon();
             }
         }
     }

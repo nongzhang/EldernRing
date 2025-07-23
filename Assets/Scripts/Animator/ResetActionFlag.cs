@@ -20,6 +20,7 @@ namespace NZ
             characterManager.canRotate = true;
             characterManager.canMove = true;
             characterManager.characterLocomotionManager.isRolling = false;
+            characterManager.characterAnimatorManager.DisableCanDoCombo();
 
             if (characterManager.IsOwner)
             {

@@ -73,7 +73,7 @@ Transform:
   m_GameObject: {fileID: 4098464669928542413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 2.2, z: 2.2}
+  m_LocalScale: {x: 2.2, y: 2.7, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7330571236683686044}
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageCollider: {fileID: 4118303537751604275}
+  boxHalfExtents: {x: 0.5, y: 0.5, z: 0.5}
   physicalDamage: 0
   magicDamage: 0
   fireDamage: 0
@@ -229,3 +230,5 @@ MonoBehaviour:
   contactPoint: {x: 0, y: 0, z: 0}
   characterCausingDamage: {fileID: 0}
   light_Attack_01_Modifier: 0
+  heavy_Attack_01_Modifier: 0
+  charge_Attack_01_Modifier: 0

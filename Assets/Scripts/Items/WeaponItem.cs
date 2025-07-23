@@ -28,17 +28,20 @@ namespace NZ
         public float poiseDamage = 10;
 
         [Header("Attack Modifiers")]  //很多武器连续攻击的第二次攻击比第一次伤害高，所以需要一个伤害修正器
-        public float light_Attack_01_Modifier = 1.1f;
+        public float light_Attack_01_Modifier = 1.0f;
+        public float light_Attack_02_Modifier = 1.2f;
         public float heavy_Attack_01_Modifier = 1.4f;
+        public float heavy_Attack_02_Modifier = 1.6f;
         public float charge_Attack_01_Modifier = 2.0f;
+        public float charge_Attack_02_Modifier = 2.2f;
 
         [Header("Stamina Costs Modifiers")]          //武器攻击时消耗的耐力
         public int baseStaminaCost = 20;
         public float lightAttackStaminaCostMultiplier = 0.9f;
 
         [Header("Actions")]
-        public WeaponItemAction oneHandRB_Action;      //单手鼠标右键的动作 单手右肩键动作
-        public WeaponItemAction oneHandRT_Action;      //                单手右扳机键动作
+        public WeaponItemAction oneHandRB_Action;      //单手鼠标右键的动作 单手右肩键动作     轻攻击
+        public WeaponItemAction oneHandRT_Action;      //                单手右扳机键动作    重攻击
         //item based actions(比如鼠标左键是轻攻击，右键是重攻击，shift+左键是战技等)
 
         //Ash of War
