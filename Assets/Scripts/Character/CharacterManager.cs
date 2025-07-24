@@ -19,6 +19,9 @@ namespace NZ
         [HideInInspector]public CharacterSoundFXManager characterSoundFXManager;
         [HideInInspector]public CharacterLocomotionManager characterLocomotionManager;
 
+        [Header("Character Group")]
+        public CharacterGroup characterGroup;
+
         [Header("Flag")]
         public bool isPerformingAction = false;
         public bool applyRootMotion = false;
@@ -63,6 +66,11 @@ namespace NZ
                     characterNetworkManager.networkPositionSmoothTime);   //如果这个角色是被别人控制，那么把网络位置赋值给它在世界空间的位置
                 transform.rotation = Quaternion.Slerp(transform.rotation, characterNetworkManager.networkRotation.Value, characterNetworkManager.networkRotationSmoothTime);
             }
+        }
+
+        protected virtual void FixedUpdate()
+        {
+
         }
 
         protected virtual void LateUpdate()

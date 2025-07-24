@@ -639,8 +639,8 @@ GameObject:
   - component: {fileID: 3694740474547422895}
   - component: {fileID: 2035444145522543279}
   - component: {fileID: 8021593820319730259}
-  - component: {fileID: 1444648651625429835}
-  - component: {fileID: 4481342998636301412}
+  - component: {fileID: 5364943428604764229}
+  - component: {fileID: 1574780128887497479}
   - component: {fileID: 5868532657631575075}
   - component: {fileID: 8829538600510391307}
   - component: {fileID: 620975993324603375}
@@ -665,8 +665,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2547231805683002273}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.9991476, z: -0, w: -0.041280642}
+  m_LocalPosition: {x: 0.29, y: 0, z: 14.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -674,7 +674,7 @@ Transform:
   - {fileID: 5684394296033886241}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -184.732, z: 0}
 --- !u!95 &3694740474547422895
 Animator:
   serializedVersion: 4
@@ -736,11 +736,15 @@ MonoBehaviour:
     m_InternalValue: 0
   moveAmount:
     m_InternalValue: 0
+  currentTargetNetworkObjectID:
+    m_InternalValue: 0
   isLockOn:
     m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
   isJumping:
+    m_InternalValue: 0
+  isChargingAttack:
     m_InternalValue: 0
   currentHealth:
     m_InternalValue: 0
@@ -754,7 +758,7 @@ MonoBehaviour:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
---- !u!114 &1444648651625429835
+--- !u!114 &5364943428604764229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -763,24 +767,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 2547231805683002273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 149c2101dc337a6469ca64c7274da8fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 631afbc4497a4d14ca689d2993c0f013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isDead:
     m_InternalValue: 0
-  characterController: {fileID: 3899869665796295245}
+  characterController: {fileID: 0}
   animator: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   characterEffectManager: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
+  characterGroup: 1
   isPerformingAction: 0
   applyRootMotion: 0
-  isGrounded: 0
+  isGrounded: 1
   canRotate: 1
   canMove: 1
---- !u!114 &4481342998636301412
+  aICharacterCombatManager: {fileID: 0}
+  currentState: {fileID: 11400000, guid: 59e6c5da0a62e364abc7fb5206b90194, type: 2}
+--- !u!114 &1574780128887497479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -789,12 +797,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2547231805683002273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0093050dbe192740b6f9048d5aa32e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2acb756fe7d232646960a8dea404747a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastAttackAnimationPerformed: 
   currentTarget: {fileID: 0}
   currentAttackType: 0
   LockOnTransform: {fileID: 7140833751329225428}
+  detectionRadius: 15
+  minimumDetectionAngle: -35
+  maximumDetectionAngle: 35
 --- !u!114 &5868532657631575075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,6 +842,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -5
   inAirTime: 0
+  isRolling: 0
 --- !u!114 &620975993324603375
 MonoBehaviour:
   m_ObjectHideFlags: 0

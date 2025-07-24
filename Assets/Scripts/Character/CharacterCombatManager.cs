@@ -6,7 +6,7 @@ namespace NZ
 {
     public class CharacterCombatManager : NetworkBehaviour
     {
-        CharacterManager characterManager;
+        protected CharacterManager characterManager;
 
         [Header("Last Attack Animation Performed")]  //上一次执行的攻击动作
         public string lastAttackAnimationPerformed;
