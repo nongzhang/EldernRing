@@ -1,2 +1,0 @@
-1. 动画相关的调用。public static int StringToHash(string name); 优化。https://docs.unity3d.com/ScriptReference/Animator.StringToHash.html
-2.项目中多处地方使用单例类，考虑写一个泛型单例类，然后其余脚本继承自它
