@@ -313,7 +313,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Hold RT"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""3f840267-5017-4e0a-a3af-28e83f279a2e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -373,6 +373,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shift State"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3f6f432-546e-4da1-bb29-98c436c8f2ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -586,7 +595,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""modifier"",
+                    ""name"": ""Modifier"",
                     ""id"": ""47bd4286-cb87-429b-b650-f5acc7cccde2"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
@@ -597,7 +606,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""binding"",
+                    ""name"": ""Binding"",
                     ""id"": ""fb272892-6d7e-403f-b8c3-3fbebc9a81fb"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -630,7 +639,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""modifier"",
+                    ""name"": ""Modifier"",
                     ""id"": ""68cc56b0-aebb-4981-8cf1-3873c25982f1"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
@@ -641,7 +650,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""binding"",
+                    ""name"": ""Binding"",
                     ""id"": ""9fc48436-873b-44c7-9911-72001f9a0c2d"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -749,6 +758,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Switch Left Weapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9fb2edb-c9f8-4858-9e9f-732a3e57a225"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shift State"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -875,6 +895,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions_SeekRightLockOnTarget = m_PlayerActions.FindAction("Seek Right Lock On Target", throwIfNotFound: true);
         m_PlayerActions_TwoHand = m_PlayerActions.FindAction("Two Hand", throwIfNotFound: true);
         m_PlayerActions_SeekLockTargetByMouse = m_PlayerActions.FindAction("Seek Lock Target By Mouse", throwIfNotFound: true);
+        m_PlayerActions_ShiftState = m_PlayerActions.FindAction("Shift State", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_X = m_UI.FindAction("X", throwIfNotFound: true);
@@ -1028,6 +1049,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_SeekRightLockOnTarget;
     private readonly InputAction m_PlayerActions_TwoHand;
     private readonly InputAction m_PlayerActions_SeekLockTargetByMouse;
+    private readonly InputAction m_PlayerActions_ShiftState;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -1045,6 +1067,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @SeekRightLockOnTarget => m_Wrapper.m_PlayerActions_SeekRightLockOnTarget;
         public InputAction @TwoHand => m_Wrapper.m_PlayerActions_TwoHand;
         public InputAction @SeekLockTargetByMouse => m_Wrapper.m_PlayerActions_SeekLockTargetByMouse;
+        public InputAction @ShiftState => m_Wrapper.m_PlayerActions_ShiftState;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1093,6 +1116,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SeekLockTargetByMouse.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnSeekLockTargetByMouse;
+                @ShiftState.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnShiftState;
+                @ShiftState.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnShiftState;
+                @ShiftState.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnShiftState;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -1136,6 +1162,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SeekLockTargetByMouse.started += instance.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.performed += instance.OnSeekLockTargetByMouse;
                 @SeekLockTargetByMouse.canceled += instance.OnSeekLockTargetByMouse;
+                @ShiftState.started += instance.OnShiftState;
+                @ShiftState.performed += instance.OnShiftState;
+                @ShiftState.canceled += instance.OnShiftState;
             }
         }
     }
@@ -1256,6 +1285,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSeekRightLockOnTarget(InputAction.CallbackContext context);
         void OnTwoHand(InputAction.CallbackContext context);
         void OnSeekLockTargetByMouse(InputAction.CallbackContext context);
+        void OnShiftState(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

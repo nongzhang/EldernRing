@@ -25,6 +25,13 @@ public class GamePadTest : MonoBehaviour
     public float stillThreshold = 0.01f; // 可调阈值，避免微小抖动误判
     public bool isMouseStill;
 
+    [Header("BUMPER INPUTS")]
+    [SerializeField] bool RB_Input = false;           //手柄右肩键，鼠标右键
+
+    [Header("TRIGGER INPUTS")]
+    [SerializeField] bool RT_Input = false;
+    [SerializeField] bool Hold_RT_Input = false;
+
     private void OnEnable()
     {
         if (playerControls == null)
@@ -44,6 +51,12 @@ public class GamePadTest : MonoBehaviour
             //键盘控制
             playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => leftArrowKey = true;
             playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => rightArrowKey = true;
+
+            //Trigger 扳机键
+            playerControls.PlayerActions.RT.performed += i => RT_Input = true;
+            //playerControls.PlayerActions.HoldRT.performed += i => Hold_RT_Input = true;
+            playerControls.PlayerActions.HoldRT.performed += OnChargeAttack;
+            playerControls.PlayerActions.HoldRT.canceled += i => Hold_RT_Input = false;
         }
         playerControls.Enable();
     }
@@ -66,6 +79,18 @@ public class GamePadTest : MonoBehaviour
         lastMousePosition = currentMousePosition;
 
         HandleMouseMove();
+
+        if (RT_Input)
+        {
+            RT_Input = false;
+            Debug.Log("RT触发了");
+        }
+
+        if (Hold_RT_Input)
+        {
+            
+            Debug.Log("Hold RT触发了");
+        }
     }
 
     private void HandleLeftTrigger()
@@ -156,5 +181,10 @@ public class GamePadTest : MonoBehaviour
 
         // 输出布尔值
         Debug.Log($"Mouse moved left: {isMouseMovedLeft}");
+    }
+
+    private void OnChargeAttack(InputAction.CallbackContext obj)
+    {
+        Debug.Log("蓄力攻击");
     }
 }

@@ -291,7 +291,7 @@
                 },
                 {
                     "name": "Hold RT",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "3f840267-5017-4e0a-a3af-28e83f279a2e",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -351,6 +351,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Shift State",
+                    "type": "Button",
+                    "id": "a3f6f432-546e-4da1-bb29-98c436c8f2ca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -564,7 +573,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "modifier",
+                    "name": "Modifier",
                     "id": "47bd4286-cb87-429b-b650-f5acc7cccde2",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -575,7 +584,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "binding",
+                    "name": "Binding",
                     "id": "fb272892-6d7e-403f-b8c3-3fbebc9a81fb",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -608,7 +617,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "modifier",
+                    "name": "Modifier",
                     "id": "68cc56b0-aebb-4981-8cf1-3873c25982f1",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -619,7 +628,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "binding",
+                    "name": "Binding",
                     "id": "9fc48436-873b-44c7-9911-72001f9a0c2d",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -727,6 +736,17 @@
                     "action": "Switch Left Weapon",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a9fb2edb-c9f8-4858-9e9f-732a3e57a225",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shift State",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

@@ -1180,6 +1180,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon_Board_Sword_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3132503662304229380, guid: e99477372ba8417428ca52c5b5687ffb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7905276815605140319, guid: e99477372ba8417428ca52c5b5687ffb,
         type: 3}
       propertyPath: m_RootOrder
@@ -1896,7 +1901,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &686799302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2675,6 +2680,9 @@ MonoBehaviour:
   lockOn_MouseInput: {x: 0, y: 0}
   stillThreshold: 0.01
   isMouseStill: 0
+  RB_Input: 0
+  RT_Input: 0
+  Hold_RT_Input: 0
 --- !u!1 &999379628
 GameObject:
   m_ObjectHideFlags: 0

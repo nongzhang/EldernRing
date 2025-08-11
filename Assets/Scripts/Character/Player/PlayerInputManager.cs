@@ -49,6 +49,7 @@ namespace NZ
         [Header("TRIGGER INPUTS")]
         [SerializeField] bool RT_Input = false;
         [SerializeField] bool Hold_RT_Input = false;
+        bool isShiftPressed = false;
 
         private void Awake()
         {
@@ -114,9 +115,11 @@ namespace NZ
                 playerControls.PlayerActions.RB.performed += i => RB_Input = true;
 
                 //Trigger ∞‚ª˙º¸
+                playerControls.PlayerActions.ShiftState.started += i => isShiftPressed = true;
+                playerControls.PlayerActions.ShiftState.canceled += i => isShiftPressed = false;
                 playerControls.PlayerActions.RT.performed += i => RT_Input = true;
-                playerControls.PlayerActions.HoldRT.performed += i => Hold_RT_Input = true;
-                playerControls.PlayerActions.HoldRT.canceled += i => Hold_RT_Input = false;
+                playerControls.PlayerActions.HoldRT.performed += i => { Hold_RT_Input = true;};
+                playerControls.PlayerActions.HoldRT.canceled += i => { Hold_RT_Input = false;};
 
                 //Lock on
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
@@ -439,6 +442,8 @@ namespace NZ
 
         private void HandRBInput()
         {
+            if (isShiftPressed)
+                return;
             if (RB_Input)
             {
                 RB_Input = false;
@@ -468,6 +473,7 @@ namespace NZ
                 if (playerManager.playerNetworkManager.isUsingRightHand.Value)
                 {
                     playerManager.playerNetworkManager.isChargingAttack.Value = Hold_RT_Input;
+                    Debug.Log("HandleChargeRTInput÷¥––¡À" + Hold_RT_Input);
                 }
             }
         }
