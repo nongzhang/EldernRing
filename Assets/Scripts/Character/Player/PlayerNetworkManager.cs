@@ -104,7 +104,7 @@ namespace NZ
 
         private void PerformWeaponBasedAction(int actionID, int weaponID)
         {
-            WeaponItemAction weaponAction = WorldActionManager.instance.GetWeaponItemActionByID(actionID);
+            WeaponItemAction weaponAction = WorldActionManager.Instance.GetWeaponItemActionByID(actionID);
 
             if (weaponAction != null)
             {

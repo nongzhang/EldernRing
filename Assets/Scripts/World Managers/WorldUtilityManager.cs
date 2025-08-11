@@ -1,26 +1,31 @@
+using NZ.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace NZ
 {
-    public class WorldUtilityManager : MonoBehaviour
+    public class WorldUtilityManager : Singleton<WorldUtilityManager>
     {
-        public static WorldUtilityManager Instance;
+        //public static WorldUtilityManager Instance;
 
         [SerializeField] LayerMask characterLayers;
         [SerializeField] LayerMask enviroLayers;
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    if (Instance == null)
+        //    {
+        //        Instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        public override void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
         }
 
         private void Start()

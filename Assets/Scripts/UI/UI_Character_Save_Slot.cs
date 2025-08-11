@@ -28,12 +28,12 @@ namespace NZ
 
             if (characterSlot == CharacterSlot.CharacterSlot_01)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，隐藏存档条
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot01.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot01.characterName;
                 }
                 else
                 {
@@ -42,12 +42,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_02)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot02.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot02.characterName;
                 }
                 else
                 {
@@ -56,12 +56,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_03)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot03.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot03.characterName;
                 }
                 else
                 {
@@ -70,12 +70,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_04)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot04.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot04.characterName;
                 }
                 else
                 {
@@ -84,12 +84,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_05)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot05.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot05.characterName;
                 }
                 else
                 {
@@ -98,12 +98,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_06)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot06.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot06.characterName;
                 }
                 else
                 {
@@ -112,12 +112,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_07)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot07.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot07.characterName;
                 }
                 else
                 {
@@ -126,12 +126,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_08)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot08.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot08.characterName;
                 }
                 else
                 {
@@ -140,12 +140,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_09)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot09.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot09.characterName;
                 }
                 else
                 {
@@ -154,12 +154,12 @@ namespace NZ
             }
             else if (characterSlot == CharacterSlot.CharacterSlot_10)
             {
-                saveFileDataWriter.saveFileName = WorldSaveGameManager.instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+                saveFileDataWriter.saveFileName = WorldSaveGameManager.Instance.DecidedCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
 
                 //如果有存档文件，那么就会从文件中获取信息，否则禁用它，不会显示存档文件，只有图标
                 if (saveFileDataWriter.CheckToSeeIfFileExists())
                 {
-                    characterName.text = WorldSaveGameManager.instance.characterSlot10.characterName;
+                    characterName.text = WorldSaveGameManager.Instance.characterSlot10.characterName;
                 }
                 else
                 {
@@ -171,8 +171,8 @@ namespace NZ
 
         public void LoadGameFromCharacterSlot()
         {
-            WorldSaveGameManager.instance.currentCharacterSlotBeingUsed = characterSlot;
-            WorldSaveGameManager.instance.LoadGame();
+            WorldSaveGameManager.Instance.currentCharacterSlotBeingUsed = characterSlot;
+            WorldSaveGameManager.Instance.LoadGame();
         }
 
         public void SelectCurrentSlot()

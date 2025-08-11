@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using NZ.Utility;
 
 namespace NZ
 {
-    public class WorldItemDataBase : MonoBehaviour
+    public class WorldItemDataBase : Singleton<WorldItemDataBase>
     {
-        public static WorldItemDataBase Instance;
+        //public static WorldItemDataBase Instance;
 
         public WeaponItem unarmedWeapon;  //ÎäÆ÷È±Ê§µÄÇéÐÎ
         [SerializeField] List<WeaponItem> weapons = new List<WeaponItem>();
@@ -16,16 +17,17 @@ namespace NZ
         [Header("Item")]
         private List<Item> items = new List<Item>();
 
-        private void Awake()
+        public override void  Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
+            //if (Instance == null)
+            //{
+            //    Instance = this;
+            //}
+            //else
+            //{
+            //    Destroy(gameObject);
+            //}
 
             foreach (var weapon in weapons)
             {

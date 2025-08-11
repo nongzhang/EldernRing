@@ -1,27 +1,32 @@
+using NZ.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace NZ
 {
-    public class WorldSoundFXManager : MonoBehaviour
+    public class WorldSoundFXManager : Singleton<WorldSoundFXManager>
     {
-        public static WorldSoundFXManager instance;
+        //public static WorldSoundFXManager instance;
         [Header("Action Sounds")]
         public AudioClip rollSFX;
 
         [Header("Damage Sounds")]
         public AudioClip[] physicalDamageSFX;
-        private void Awake()
+        //private void Awake()
+        //{
+        //    if (instance == null)
+        //    {
+        //        instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        public override void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
         }
 
         private void Start()

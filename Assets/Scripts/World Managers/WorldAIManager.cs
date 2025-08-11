@@ -4,11 +4,13 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System.Runtime.InteropServices;
+using NZ.Utility;
+
 namespace NZ
 {
-    public class WorldAIManager : MonoBehaviour
+    public class WorldAIManager : Singleton<WorldAIManager>
     {
-        public static WorldAIManager instance;
+        //public static WorldAIManager instance;
         //private IEnumerator loadSceneCoroutine;
 
         [Header("DEBUG")]
@@ -19,16 +21,20 @@ namespace NZ
         [SerializeField] GameObject[] aiCharacters;
         [SerializeField] List<GameObject> spawnedAICharacters;
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    if (instance == null)
+        //    {
+        //        instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        public override void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
         }
 
         private void Start()

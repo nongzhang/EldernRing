@@ -1,3 +1,4 @@
+using NZ.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,9 +7,9 @@ using UnityEngine.SceneManagement;
 
 namespace NZ
 {
-    public class WorldSaveGameManager : MonoBehaviour
+    public class WorldSaveGameManager : Singleton<WorldSaveGameManager>
     {
-        public static WorldSaveGameManager instance;
+        //public static WorldSaveGameManager instance;
         public PlayerManager playerManager;
 
         [Header("SAVE/LOAD")]
@@ -41,16 +42,20 @@ namespace NZ
         {
             return worldSceneIndex;
         }
-        private void Awake()
+        //private void Awake()
+        //{
+        //    if (instance == null)
+        //    {
+        //        instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        public override void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
         }
         void Start()
         {

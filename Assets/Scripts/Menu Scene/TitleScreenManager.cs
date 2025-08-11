@@ -49,7 +49,7 @@ namespace NZ
 
         public void StartNewGame()
         {
-            WorldSaveGameManager.instance.AttemptCreateNewGame();
+            WorldSaveGameManager.Instance.AttemptCreateNewGame();
             
         }
 
@@ -101,7 +101,7 @@ namespace NZ
         public void DeleteCharacterSlot()
         {
             deleteCharacterSlotPopUp.SetActive(false);
-            WorldSaveGameManager.instance.DeleteGame(currentSelectSlot);
+            WorldSaveGameManager.Instance.DeleteGame(currentSelectSlot);
 
             //通过禁用和启用Load Menu,来刷新存档槽(被删除的槽将变成inactive)
             titleScreenLoadMenu.SetActive(false);

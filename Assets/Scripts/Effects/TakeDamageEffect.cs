@@ -87,7 +87,7 @@ namespace NZ
 
         private void PlayDamageSFX(CharacterManager character)
         {
-            AudioClip physicalDamageSFX = WorldSoundFXManager.instance.ChooseRandomSFXFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
+            AudioClip physicalDamageSFX = WorldSoundFXManager.Instance.ChooseRandomSFXFromArray(WorldSoundFXManager.Instance.physicalDamageSFX);
             character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
             //如果火焰伤害大于零，播放燃烧音效
             //如果闪电伤害大于零，播放滋滋声······

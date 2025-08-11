@@ -2,26 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using NZ.Utility;
+
 namespace NZ
 {
-    public class WorldActionManager : MonoBehaviour
+    public class WorldActionManager : Singleton<WorldActionManager>
     {
-        public static WorldActionManager instance;
+        //public static WorldActionManager instance;
         [Header("Weapon Item Actions")]
         public WeaponItemAction[] weaponItemActions;
 
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        //private void Awake()
+        //{
+        //    if (instance == null)
+        //    {
+        //        instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
 
-            DontDestroyOnLoad(gameObject);
+        //    DontDestroyOnLoad(gameObject);
+        //}
+
+        public override void Awake()
+        {
+            base.Awake();
         }
 
         private void Start()

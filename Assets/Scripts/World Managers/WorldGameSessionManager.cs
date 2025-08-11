@@ -1,25 +1,30 @@
+using NZ.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace NZ
 {
-    public class WorldGameSessionManager : MonoBehaviour
+    public class WorldGameSessionManager : Singleton<WorldGameSessionManager>
     {
-        public static WorldGameSessionManager Instance;
+        //public static WorldGameSessionManager Instance;
         [Header("Active Player In Session")]
         public List<PlayerManager> playerManagers = new List<PlayerManager>();
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    if (Instance == null)
+        //    {
+        //        Instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        public override void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
         }
 
         public void AddPlayerToActivePlayersList(PlayerManager player)

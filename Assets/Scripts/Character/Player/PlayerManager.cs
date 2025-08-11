@@ -62,7 +62,7 @@ namespace NZ
             {
                 PlayerCamera.instance.playerManager = this;
                 PlayerInputManager.instance.playerManager = this;
-                WorldSaveGameManager.instance.playerManager = this;
+                WorldSaveGameManager.Instance.playerManager = this;
 
                 playerNetworkManager.vitality.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;
                 playerNetworkManager.endurance.OnValueChanged += playerNetworkManager.SetNewMaxStaminaValue;
@@ -92,7 +92,7 @@ namespace NZ
             //当连接成功时，如果我们是这个角色的拥有者（Owner），但不是服务器（Server），则需要将保存的角色数据加载到刚生成的角色对象中。如果我们是服务器，就不需要运行这段逻辑，因为服务器作为主机（Host）已经完成了加载，不需要重新加载数据。
             if (IsOwner && !IsServer)
             {
-                LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterSaveData);
+                LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.Instance.currentCharacterSaveData);
             }
         }
 

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NZ.Utility;
 
 namespace NZ
 {
-    public class WorldCharacterEffectsManager : MonoBehaviour
+    public class WorldCharacterEffectsManager : Singleton<WorldCharacterEffectsManager>
     {
-        public static WorldCharacterEffectsManager instance;
+        //public static WorldCharacterEffectsManager instance;
 
         [Header("Damage")]
         public TakeDamageEffect takeDamageEffect;
@@ -16,17 +17,21 @@ namespace NZ
 
         [SerializeField] List<InstantCharacterEffect> instantCharacterEffects;
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    if (instance == null)
+        //    {
+        //        instance = this;
+        //    }
+        //    else
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //    GenerateEffectIDs();
+        //}
+        public override void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            GenerateEffectIDs();
+            base.Awake();
         }
 
         private void GenerateEffectIDs()

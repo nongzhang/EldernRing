@@ -50,7 +50,7 @@ namespace NZ
             }
             charactersDamaged.Add(damageTarget);
 
-            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
+            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.Instance.takeDamageEffect);
             damageEffect.physicalDamage = physicalDamage;
             damageEffect.magicDamage = magicDamage;
             damageEffect.fireDamage = fireDamage;

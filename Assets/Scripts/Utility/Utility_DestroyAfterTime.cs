@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NZ
+namespace NZ.Utility
 {
     public class Utility_DestroyAfterTime : MonoBehaviour
     {

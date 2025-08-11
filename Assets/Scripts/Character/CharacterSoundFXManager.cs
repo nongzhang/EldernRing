@@ -27,7 +27,7 @@ namespace NZ
 
         public void PlayRollSoundFX()
         {
-            audioSource.PlayOneShot(WorldSoundFXManager.instance.rollSFX);
+            audioSource.PlayOneShot(WorldSoundFXManager.Instance.rollSFX);
         }
     }
 }
